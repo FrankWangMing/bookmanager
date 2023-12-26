@@ -1,0 +1,13 @@
+query UserTravel{
+    userTravel {
+       ...TravelData
+    }
+}
+
+
+
+
+fragment TravelData on Travel {
+    id
+    title
+}

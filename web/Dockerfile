@@ -1,0 +1,29 @@
+FROM node:16 AS builder
+
+# Create app directory
+WORKDIR /app
+
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+COPY package.json ./
+COPY yarn.lock ./
+COPY nginx ./
+
+# Install app dependencies
+# RUN yarn cache clean
+RUN yarn
+
+COPY . .
+
+RUN yarn run build
+
+FROM bitnami/nginx:latest
+
+WORKDIR /app
+
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/nginx/nginx.conf  /opt/bitnami/nginx/conf/server_blocks/my_server_block.conf
+COPY --from=builder /app/nginx/certs/blog.frankwm.cn_bundle.crt ./certs/server.crt
+COPY --from=builder /app/nginx/certs/blog.frankwm.cn.key  ./certs/server.key
+
+EXPOSE 8080
+
