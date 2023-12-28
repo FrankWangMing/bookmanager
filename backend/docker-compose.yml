@@ -2,7 +2,7 @@ version: '3.8'
 services:
   travel:
     platform: linux/amd64
-    container_name: backend-travel
+    container_name: backend-bookmanager
     build:
       context: .
       dockerfile: Dockerfile

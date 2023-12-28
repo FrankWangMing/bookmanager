@@ -229,7 +229,7 @@ function MNavbar() {
             variant="h6"
             className="mr-4 cursor-pointer py-1.5 lg:ml-2"
           >
-            <span>MING HOME</span>
+            <span>图书管理中心</span>
           </Typography>
           <div className="hidden lg:block">
             <NavList />

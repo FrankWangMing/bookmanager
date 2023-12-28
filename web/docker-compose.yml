@@ -3,7 +3,7 @@
 
 version: '3.8'
 services:
-  fe-travelgo:
+  fe-bookmanagergo:
     platform: linux/amd64
     container_name: fe-travelgo
     build:
