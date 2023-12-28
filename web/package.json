@@ -1,10 +1,10 @@
 {
-  "name": "reactjs-vite-tailwindcss-boilerplate",
+  "name": "bookmanager-fe",
   "description": "This is a boilerplate build with Vite, React 18, TypeScript, Vitest, Testing Library, TailwindCSS 3, Eslint and Prettier.",
   "version": "0.1.0",
   "private": true,
   "author": {
-    "name": "João Paulo Moraes",
+    "name": "Frank",
     "email": "joaopaulomoraes@outlook.com",
     "url": "https://github.com/joaopaulomoraes"
   },
@@ -22,20 +22,17 @@
     "typecheck": "tsc --project tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@amap/amap-jsapi-loader": "^1.0.1",
     "@apollo/client": "^3.8.0",
     "@headlessui/react": "^1.7.16",
     "@heroicons/react": "^2.0.18",
-    "@material-tailwind/react": "^2.1.6",
-    "@react-buddy/ide-toolbox": "^2.4.0",
     "@types/lodash": "^4.14.197",
     "ahooks": "^3.7.8",
+    "antd": "^5.12.5",
     "daisyui": "^3.5.1",
     "graphql": "^16.7.1",
     "history": "^5.3.0",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
-    "match-sorter": "^6.3.1",
     "mobx": "^6.10.0",
     "mobx-react-lite": "^4.0.3",
     "mobx-state-tree": "^5.1.8",
@@ -60,6 +57,7 @@
     "@vitejs/plugin-react-swc": "^3.3.2",
     "@vitest/ui": "^0.34.1",
     "autoprefixer": "^10.4.14",
+    "browserslist": ">=4.21.0",
     "eslint": "^8.46.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
@@ -76,5 +74,6 @@
     "vite": "^4.4.9",
     "vite-tsconfig-paths": "^4.2.0",
     "vitest": "^0.34.1"
-  }
+  },
+  "packageManager": "yarn@4.0.2"
 }

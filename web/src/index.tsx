@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import 'tailwindcss/tailwind.css'
-import App from 'components/App'
+import 'index.css'
 import { ApolloProvider } from '@apollo/client'
 import { RouterProvider } from 'react-router-dom'
 import { router } from './router/router'

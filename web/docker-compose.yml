@@ -3,9 +3,9 @@
 
 version: '3.8'
 services:
-  fe-bookmanagergo:
+  fe-bookmanager:
     platform: linux/amd64
-    container_name: fe-travelgo
+    container_name: fe-bookmanager
     build:
       context: .
       dockerfile: Dockerfile

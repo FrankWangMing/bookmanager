@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import MNavbar from '../../components/Navbar'
+import Navbar from '../../components/Navbar'
 import { useEffect } from 'react'
 import { viewmodel } from '../../model'
 import Banner from './Banner'
@@ -10,13 +10,11 @@ export const Main = observer(() => {
   }, [])
   return (
     <>
-      <MNavbar />
-      <Banner />
+      <Navbar />
       <div className="min-h-full">
         <main>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            {/* Your content */}
-            good
+
           </div>
         </main>
       </div>
