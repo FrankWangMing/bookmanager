@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { observer } from 'mobx-react-lite';
 
 const user = {
   name: 'Tom Cook',
@@ -26,7 +27,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Example() {
+export default observer(() => {
   return (
     <>
       {/*
@@ -220,4 +221,4 @@ export default function Example() {
       </div>
     </>
   );
-}
+})

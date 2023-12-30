@@ -22,7 +22,6 @@ export const Me = observer(() => {
           {viewmodel.userModel.userInfo?.email}/
           {viewmodel.userModel.userInfo?.firstname}
         </div>
-        feature //平凡之路
         <div className="grow">1</div>
       </div>
       <Footer />

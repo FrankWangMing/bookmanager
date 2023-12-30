@@ -1,54 +1,51 @@
 import { Button } from "antd";
 import { uniqueId } from "lodash";
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { router } from "router/router";
-
+import type { MenuProps } from 'antd';
+import { Menu as AntdMenu } from "antd"
+import { useLocation, useRoutes } from "react-router-dom";
+import { useHistoryTravel } from "ahooks";
 const Menu = observer(() => {
-
-  // const [menu, setMenu] = useState()
-  const menu = [{
-    name: "用户管理",
-    path: "/users"
-  }, {
-    name: "图书管理",
-    path: "/books"
-  }]
-  return <ul className="flex-1 menu menu-horizontal px-1 active:{}">
+  const items: MenuProps['items'] = [
     {
-      menu.map(i => {
-        console.log(
-          router.state.location.pathname
-        );
-        return <li key={uniqueId()}>
-          <a onClick={() => {
-            router.navigate(i.path)
-          }} >{i.name}</a>
-          <Button>{i.name}</Button>
-        </li>
-      })
-    }
-    {/* <li>
-      <details>
-        <summary>
-          图书管理
-        </summary>
-        <ul className="p-2 bg-base-100 rounded-t-none">
-          <li><a>Link 1</a></li>
-          <li><a>Link 2</a></li>
-        </ul>
-      </details>
-    </li> */}
-  </ul>
+      label: '供应商管理',
+      key: '/supplier',
+    },
+    {
+      label: '图书管理',
+      key: '/books',
+    },
+    {
+      label: '用户管理',
+      key: '/users',
+    },
+  ];
+  let location = useLocation();
+
+  const [current, setCurrent] = useState(location.pathname)
+
+  useEffect(() => {
+    // Google Analytics
+    setCurrent(location.pathname)
+
+  }, [location]);
+  const onClick = (i) => {
+    router.navigate(`${i.key}`)
+  }
+  return <AntdMenu className="menu menu-vertical lg:menu-horizontal  rounded-box" onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
 })
 
 export default observer(
   () => {
-    return <div className="navbar bg-base-100 ">
+    return <div className="navbar bg-base-100 fixed top-0 z-10 shadow-xl ring-1 ring-gray-900/5">
       <div className="flex-1">
         <a className="btn btn-ghost text-xl">图书管理系统</a>
       </div>
-      <Menu />
+      <div className="flex-1">
+        <Menu />
+      </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
@@ -71,3 +68,5 @@ export default observer(
     </div>
   }
 )
+
+

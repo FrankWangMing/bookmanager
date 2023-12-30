@@ -1,7 +1,14 @@
 module.exports = ({
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    './node_modules/flowbite-react/lib/esm/**/*.js'],
   theme: {
-    extend: {}
+    extend: {
+    },
   },
-  plugins: [require('daisyui')]
+  plugins: [require('flowbite/plugin')],
+  corePlugins: {
+    preflight: false
+  }
 })

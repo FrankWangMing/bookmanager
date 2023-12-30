@@ -3,28 +3,39 @@ import { Login } from '../pages/Login'
 import Example from '../pages/test'
 import { Me } from '../pages/Me'
 import { Main } from '../pages/Main'
-import { Users } from 'pages/Users'
-import { Books } from 'pages/Books'
+import { Users } from 'pages/Main/Users'
+import { Books } from 'pages/Main/Books'
+import Supplier from 'pages/Main/Supplier'
+import Dashboard from 'pages/Main/Dashboard'
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Main />
+    Component: Main,
+    children: [
+      {
+        path: 'dashboard',
+        Component: Dashboard
+      },
+      {
+        path: 'users',
+        Component: Users
+      },
+      {
+        path: 'supplier',
+        Component: Supplier
+      },
+      {
+        path: 'books',
+        Component: Books
+      }, {
+        path: 'test',
+        Component: Example
+      }
+    ]
   },
   {
     path: '/login',
-    element: <Login />
-  },
-  {
-    path: '/test',
-    element: <Example />
-  },
-  {
-    path: '/users',
-    element: <Users />
-  },
-  {
-    path: '/books',
-    element: <Books />
+    Component: Login
   },
   {
     path: '/me',
