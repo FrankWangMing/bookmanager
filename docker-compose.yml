@@ -1,35 +1,42 @@
-version: '3.8'
+version: "1.0"
+
 services:
-  travel:
+  backend-bookmanager:
     platform: linux/amd64
     container_name: backend-bookmanager
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
     depends_on:
       - postgres
     env_file:
-      - .env
-
+      - ./backend/.env
+    networks:
+      - connect
   postgres:
     image: postgres
     container_name: postgres
     restart: always
     ports:
-      - "5432:5432"
+      - 5432:5432
     env_file:
-      - .env
+      - ./backend/.env
     volumes:
       - postgres:/var/lib/postgresql/data
-    networks:
-      - connect
 
-networks:
-  connect:
-    driver: bridge
-
+  web-bookmanager:
+    platform: linux/amd64
+    container_name: web-bookmanager
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      - 8000:80
 volumes:
   postgres:
     name: nest-db
+networks:
+  connect:
+    driver: bridge

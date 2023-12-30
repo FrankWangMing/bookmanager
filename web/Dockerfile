@@ -9,7 +9,10 @@ COPY yarn.lock ./
 COPY nginx ./
 
 # Install app dependencies
-# RUN yarn cache clean
+RUN npm config set registry https://registry.npm.taobao.org/
+
+RUN yarn cache clean
+
 RUN yarn
 
 COPY . .
