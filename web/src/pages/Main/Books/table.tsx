@@ -9,18 +9,19 @@ import type { FilterConfirmProps } from 'antd/es/table/interface';
 
 
 interface DataType {
-    number: number;
     key: string;
-    name: string;
-    publish: string;
-    discount: number;
-    stock: number;
-    price: number;
-    auther: string;
-    print_time: string;
-    readership: string;
-    classification: string;
-    address: string;
+    number: number; //图书编号
+    name: string;//书名
+    publish: string;//出版社
+    discount: number;//折扣
+    stock: number;//库存
+    price: number;//价格
+    author: string;//作者
+    print_time: string;//印刷时间
+    readership: string;//读者对象
+    classification: string;//中图分类
+    address: string;//库位
+    format:string //开本
 }
 
 type DataIndex = keyof DataType;
@@ -162,9 +163,9 @@ export default observer(() => {
         },
         {
             title: '作者',
-            dataIndex: 'auther',
-            key: 'auther',
-            ...getColumnSearchProps('auther'),
+            dataIndex: 'author',
+            key: 'author',
+            ...getColumnSearchProps('author'),
         }, {
             title: '印刷时间',
             dataIndex: 'print_time',

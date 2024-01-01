@@ -55,8 +55,4 @@ export class UsersResolver {
     return this.prisma.user.findUnique({ where: { id: author.id } }).posts();
   }
 
-  @ResolveField('travels')
-  travels(@Parent() author: User) {
-    return this.prisma.user.findUnique({ where: { id: author.id } }).travels();
-  }
 }

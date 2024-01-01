@@ -1,0 +1,30 @@
+query Book {
+  data {
+    ...BookData
+  }
+}
+mutation CreateBook {
+  createBook(data: {}) {
+    ...BookData
+  }
+}
+
+fragment BookData on Book {
+  id
+  name
+  bookNumber
+  publish
+  Supplier
+  publish
+  discount
+  stock
+  price
+  author
+  printTime
+  readership
+  classification
+  address
+  format
+  createdAt
+  updatedAt
+}

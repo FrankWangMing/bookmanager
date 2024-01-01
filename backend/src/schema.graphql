@@ -11,9 +11,47 @@ type Auth {
   user: User!
 }
 
+type Book {
+  address: String!
+  author: String!
+  bookNumber: Int!
+  classification: String!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  discount: Int!
+  format: String!
+  id: ID!
+  name: String!
+  price: Int!
+  printTime: String!
+  publish: String!
+  readership: String!
+  stock: Int!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+}
+
 input ChangePasswordInput {
   newPassword: String!
   oldPassword: String!
+}
+
+input CreateBookInput {
+  address: String!
+  author: String!
+  bookNumber: Int!
+  classification: String!
+  discount: Int!
+  format: String!
+  name: String!
+  price: Int!
+  printTime: String!
+  publish: String!
+  readership: String!
+  stock: Int!
+  supplierCode: String!
 }
 
 input CreatePostInput {
@@ -21,9 +59,9 @@ input CreatePostInput {
   title: String!
 }
 
-input CreateTravelInput {
-  content: String!
-  title: String!
+input CreateSupplierInput {
+  name: String!
+  supplierCode: String!
 }
 
 """
@@ -43,13 +81,12 @@ input LoginInput {
 
 type Mutation {
   changePassword(data: ChangePasswordInput!): User!
+  createBook(data: CreateBookInput!): Book!
   createPost(data: CreatePostInput!): Post!
-  createTravel(createTravelInput: CreateTravelInput!): Travel!
+  createSupplier(data: CreateSupplierInput!): Supplier!
   login(data: LoginInput!): Auth!
   refreshToken(token: JWT!): Token!
-  removeTravel(id: Int!): Travel!
   signup(data: SignupInput!): Auth!
-  updateTravel(updateTravelInput: UpdateTravelInput!): Travel!
   updateUser(data: UpdateUserInput!): User!
 }
 
@@ -109,14 +146,12 @@ enum PostOrderField {
 }
 
 type Query {
-  findOne(id: Int!): Travel!
   hello(name: String!): String!
   helloWorld: String!
   me: User!
   post(postId: String!): Post!
   publishedPosts(after: String, before: String, first: Int, last: Int, orderBy: PostOrder, query: String, skip: Int): PostConnection!
   userPosts(userId: String!): [Post!]!
-  userTravel: [Travel!]!
 }
 
 """User role"""
@@ -133,7 +168,22 @@ input SignupInput {
 }
 
 type Subscription {
+  bookCreated: Book!
   postCreated: Post!
+  supplierCreated: Supplier!
+}
+
+type Supplier {
+  books: [Book!]
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  supplierCode: String!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
 }
 
 type Token {
@@ -142,25 +192,6 @@ type Token {
 
   """JWT refresh token"""
   refreshToken: JWT!
-}
-
-type Travel {
-  author: User
-  content: String
-
-  """Identifies the date and time when the object was created."""
-  createdAt: DateTime!
-  id: ID!
-  title: String!
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: DateTime!
-}
-
-input UpdateTravelInput {
-  content: String
-  id: Int!
-  title: String
 }
 
 input UpdateUserInput {
@@ -177,7 +208,6 @@ type User {
   lastname: String
   posts: [Post!]
   role: Role!
-  travels: [Travel!]
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!

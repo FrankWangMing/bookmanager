@@ -1,6 +1,6 @@
-version: '3.8'
+version: "3.8"
 services:
-  travel:
+  backend-bookmanager:
     platform: linux/amd64
     container_name: backend-bookmanager
     build:
@@ -12,10 +12,12 @@ services:
       - postgres
     env_file:
       - .env
+    networks:
+      - connect
 
   postgres:
     image: postgres
-    container_name: postgres
+    container_name: backend-postgres
     restart: always
     ports:
       - "5432:5432"

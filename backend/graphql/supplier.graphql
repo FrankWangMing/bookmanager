@@ -1,0 +1,20 @@
+query Supplier {
+  data {
+    ...SupplierData
+  }
+}
+
+mutation createSupplier {
+  createSupplier(data: {}) {
+    ...SupplierData
+  }
+}
+
+fragment SupplierData on Supplier {
+  id
+  createdAt
+  updatedAt
+  name
+  SupplierCode
+  books
+}

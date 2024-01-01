@@ -11,7 +11,9 @@ import { PostsModule } from 'src/posts/posts.module';
 import config from 'src/common/configs/config';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GqlConfigService } from './gql-config.service';
-import { TravelModule } from './travel/travel.module';
+import { BooksResolver } from './books/books.resolver';
+import { BooksModule } from './books/books.module';
+import { SupplierModule } from './supplier/supplier.module';
 
 @Module({
   imports: [
@@ -37,9 +39,10 @@ import { TravelModule } from './travel/travel.module';
     AuthModule,
     UsersModule,
     PostsModule,
-    TravelModule,
+    BooksModule,
+    SupplierModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AppResolver],
+  providers: [AppService, AppResolver, BooksResolver],
 })
 export class AppModule {}
