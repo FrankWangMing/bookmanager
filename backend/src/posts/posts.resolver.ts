@@ -40,8 +40,6 @@ export class PostsResolver {
     @UserEntity() user: User,
     @Args("data") data: CreatePostInput
   ) {
-    console.log(user.id);
-    console.log(data);
     const newPost = this.prisma.post.create({
       data: {
         published: true,
