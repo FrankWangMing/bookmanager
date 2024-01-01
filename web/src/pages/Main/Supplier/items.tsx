@@ -1,7 +1,8 @@
 import { Button, Space, Input, Divider, List, Avatar } from "antd"
 import { SearchProps } from "antd/es/input";
 import { observer } from "mobx-react-lite"
-import { useState } from "react";
+import { viewmodel } from "model";
+import { useEffect, useState } from "react";
 const { Search } = Input;
 
 
@@ -24,6 +25,12 @@ const data = [
     },
 ];
 export const Items = observer(() => {
+    useEffect(()=>{
+        console.log(
+            viewmodel.supplierModel.supplierList
+        );
+        
+    },[])
     const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
     const [select, setSelect] = useState("1")
     return <div className="border-spacing-1 min-h-4  ">

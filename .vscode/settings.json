@@ -4,6 +4,7 @@
         "devoxa",
         "firstname",
         "lastname",
-        "nestjs"
+        "nestjs",
+        "viewmodel"
     ]
 }
