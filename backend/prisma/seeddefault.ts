@@ -7,7 +7,29 @@ async function main() {
   await prisma.post.deleteMany();
 
   console.log("Seeding...");
-
+  await prisma.supplier.create({
+    data: {
+      name: "wang",
+      code: "wang",
+    },
+  });
+  await prisma.book.create({
+    data: {
+      name: "从此爱上写作文-小学生注音看图作文（1-3年级适用）",
+      bookNumber: 170228,
+      author: "张在军 著",
+      printTime: "2014-10-01",
+      classification: "G",
+      publish: "中国画报",
+      format: "B15-01-2",
+      discount: 0.1,
+      address: "",
+      stock: 647,
+      price: 123,
+      readership: "小学",
+      supplierCode: "wang",
+    },
+  });
   const user1 = await prisma.user.create({
     data: {
       email: "lisa@simpson.com",
@@ -72,32 +94,6 @@ async function main() {
   });
 
   console.log({ user1, user2, user3 });
-
-  await prisma.supplier.create({
-    data: {
-      name: "wang",
-      code: "wang",
-    },
-  });
-  for (let index = 0; index < 100; index++) {
-    await prisma.book.create({
-      data: {
-        name: "从此爱上写作文-小学生注音看图作文（1-3年级适用）",
-        bookNumber: 170228 + index,
-        author: "张在军 著",
-        printTime: "2014-10-01",
-        classification: "G",
-        publish: "中国画报",
-        format: "B15-01-2",
-        discount: 0.1,
-        address: "bj",
-        stock: 647,
-        price: 123,
-        readership: "小学",
-        supplierCode: "wang",
-      },
-    });
-  }
 }
 
 main()

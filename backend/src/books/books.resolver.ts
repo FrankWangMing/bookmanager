@@ -14,7 +14,7 @@ import { UseGuards } from "@nestjs/common";
 import { GqlAuthGuard } from "src/auth/gql-auth.guard";
 import { UserEntity } from "src/common/decorators/user.decorator";
 import { Supplier } from "src/supplier/model/supplier.model";
-import { CreateBookInput } from "./dto/createBook.input";
+import { CreateBookInput, SearchBookInput } from "./dto/createBook.input";
 import { BookIdArgs } from "./dto/book-id.args";
 
 const pubSub = new PubSub();
@@ -88,6 +88,53 @@ export class BooksResolver {
   @Query(() => Book)
   async book(@Args() id: BookIdArgs) {
     return this.prisma.book.findUnique({ where: { bookNumber: id.bookId } });
+  }
+
+  @Query(() => [Book])
+  async searchBooks(@Args("data") data: SearchBookInput) {
+    console.log(data.bookNumber);
+    if (data.bookNumber) {
+      return [
+        await this.prisma.book.findUnique({
+          where: { bookNumber: data.bookNumber },
+        }),
+      ];
+    } else {
+      return await this.prisma.book.findMany({
+        where: {
+          discount: data.discount,
+          price: data.price,
+          stock: data.stock,
+          address: {
+            contains: data.address,
+          },
+          author: {
+            contains: data.author,
+          },
+          classification: {
+            contains: data.classification,
+          },
+          format: {
+            contains: data.format,
+          },
+          name: {
+            contains: data.name,
+          },
+          printTime: {
+            contains: data.printTime,
+          },
+          publish: {
+            contains: data.publish,
+          },
+          readership: {
+            contains: data.readership,
+          },
+          supplierCode: {
+            contains: data.supplierCode,
+          },
+        },
+      });
+    }
   }
 
   @ResolveField("supplier", () => Supplier)

@@ -158,6 +158,7 @@ type Query {
   me: User!
   post(postId: String!): Post!
   publishedPosts(after: String, before: String, first: Int, last: Int, orderBy: PostOrder, query: String, skip: Int): PostConnection!
+  searchBooks(data: SearchBookInput!): [Book!]!
   userPosts(userId: String!): [Post!]!
 }
 
@@ -165,6 +166,22 @@ type Query {
 enum Role {
   ADMIN
   USER
+}
+
+input SearchBookInput {
+  address: String
+  author: String
+  bookNumber: Int
+  classification: String
+  discount: Int
+  format: String
+  name: String
+  price: Int
+  printTime: String
+  publish: String
+  readership: String
+  stock: Int
+  supplierCode: String
 }
 
 input SignupInput {

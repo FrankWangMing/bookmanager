@@ -1,5 +1,5 @@
 import { IsNotEmpty } from "class-validator";
-import { InputType, Field } from "@nestjs/graphql";
+import { InputType, PartialType, Field } from "@nestjs/graphql";
 
 @InputType()
 export class CreateBookInput {
@@ -45,3 +45,6 @@ export class CreateBookInput {
   @Field()
   format: string;
 }
+
+@InputType()
+export class SearchBookInput extends PartialType(CreateBookInput) {}
