@@ -1,20 +1,18 @@
 import { makeAutoObservable } from 'mobx'
 import { login, LoginProps, userInfo } from '../../service/users'
 import { get } from 'lodash'
+import { RootViewModel } from 'model'
 
 export class Users {
-  userInfo: any
-  constructor() {
+  userInfo: any = null
+  constructor(root: RootViewModel) {
     makeAutoObservable(this)
-    this.init()
-  }
-  async init() {
-    await this.fetchUserInfo()
+    this.fetchUserInfo()
   }
 
   async login(params: LoginProps) {
     const { data } = await login(params)
-    console.log(data)
+    // console.log(data)
     if (data) {
       localStorage.setItem('token', data.login.accessToken)
     }

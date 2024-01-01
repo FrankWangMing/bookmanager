@@ -23,9 +23,9 @@ const App: React.FC = () => {
       <Form.Item
         name="username"
         rules={[{ required: true, message: 'Please input your Username!' }]}
+        initialValue={loginData.email}
       >
         <Input
-          defaultValue={loginData.email}
           onChange={(r) => {
             setLoginData(assign(loginData, { email: r.target.value }))
           }}
@@ -36,9 +36,9 @@ const App: React.FC = () => {
       <Form.Item
         name="password"
         rules={[{ required: true, message: 'Please input your Password!' }]}
+        initialValue={loginData.password}
       >
         <Input
-          defaultValue={loginData.password}
           prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"
           placeholder="Password"
@@ -69,7 +69,7 @@ const App: React.FC = () => {
               .then((r) => {
                 console.log(r)
                 if (r) {
-                  router.navigate('/')
+                  router.navigate('/dashboard')
                   // history.replace('/')
                 }
               })

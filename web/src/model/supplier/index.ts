@@ -1,21 +1,20 @@
 import { makeAutoObservable } from 'mobx'
 import { login, LoginProps, userInfo } from '../../service/users'
 import { get } from 'lodash'
+import { supplierList } from 'service/supplier'
+import { RootViewModel } from 'model'
 
 export class Supplier {
-  supplierList: any
-  constructor() {
+  public supplierList: any
+  root: RootViewModel
+  constructor(root: RootViewModel) {
     makeAutoObservable(this)
-    this.init()
-  }
-  async init() {
-    await this.fetchSupplierList()
+    this.root = root
   }
 
   async fetchSupplierList() {
-    const { data } = await userInfo()
-    console.log(data)
-    this.supplierList = get(data, 'me', {})
-    return data
+    const data = await supplierList()
+    this.supplierList = get(data, 'data.getSupplier', [])
+    return this.supplierList
   }
 }
