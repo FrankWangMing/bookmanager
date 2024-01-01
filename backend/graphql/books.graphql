@@ -3,6 +3,11 @@ query Book {
     ...BookData
   }
 }
+
+query getBooks{
+  data [BookData]
+}
+
 mutation CreateBook {
   createBook(data: {}) {
     ...BookData
@@ -13,8 +18,6 @@ fragment BookData on Book {
   id
   name
   bookNumber
-  publish
-  Supplier
   publish
   discount
   stock

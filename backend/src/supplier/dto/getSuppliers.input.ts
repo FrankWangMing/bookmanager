@@ -3,7 +3,7 @@ import { InputType, Field } from "@nestjs/graphql";
 import { Book } from "src/books/models/book.model";
 
 @InputType()
-export class CreateSupplierInput {
+export class GetSupplierInput {
   @Field()
   @IsNotEmpty()
   name: string;

@@ -1,9 +1,8 @@
-import { IsNotEmpty } from 'class-validator';
-import { InputType, Field } from '@nestjs/graphql';
+import { IsNotEmpty } from "class-validator";
+import { InputType, Field } from "@nestjs/graphql";
 
 @InputType()
 export class CreateBookInput {
-
   @Field()
   @IsNotEmpty()
   supplierCode: string;
@@ -18,7 +17,7 @@ export class CreateBookInput {
 
   @Field()
   publish: string;
-  
+
   @Field()
   discount: number;
 
@@ -27,22 +26,22 @@ export class CreateBookInput {
 
   @Field()
   price: number;
-  
+
   @Field()
   author: string;
-  
+
   @Field()
   printTime: string;
-  
+
   @Field()
   readership: string;
-  
+
   @Field()
   classification: string;
-  
+
   @Field()
   address: string;
-  
+
   @Field()
   format: string;
 }

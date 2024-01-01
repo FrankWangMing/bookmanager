@@ -15,19 +15,19 @@ Table User {
 }
 
 Table Supplier {
-  id String [not null]
+  id Int [pk, increment]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
   name String [not null]
-  supplierCode String [pk]
+  code String [unique, not null]
   books Book [not null]
 }
 
 Table Book {
-  id String [pk]
+  id Int [increment, not null]
+  bookNumber Int [pk]
   supplier Supplier [not null]
   supplierCode String [not null]
-  bookNumber Int [not null]
   name String [not null]
   publish String [not null]
   discount Int [not null]
@@ -59,6 +59,6 @@ Enum Role {
   USER
 }
 
-Ref: Book.supplierCode > Supplier.supplierCode
+Ref: Book.supplierCode > Supplier.code
 
 Ref: Post.authorId > User.id

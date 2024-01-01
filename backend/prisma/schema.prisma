@@ -25,19 +25,19 @@ model User {
 }
 
 model Supplier {
-  id           String   @default(cuid())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  name         String
-  supplierCode String   @id @unique
-  books        Book[]
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  code      String   @unique
+  books     Book[]
 }
 
 model Book {
-  id             String   @id @default(cuid())
-  supplier       Supplier @relation(fields: [supplierCode], references: [supplierCode])
+  id             Int      @default(autoincrement())
+  bookNumber     Int      @id @unique //图书编号 
+  supplier       Supplier @relation(fields: [supplierCode], references: [code])
   supplierCode   String
-  bookNumber     Int //图书编号
   name           String //书名
   publish        String //出版社
   discount       Int //折扣

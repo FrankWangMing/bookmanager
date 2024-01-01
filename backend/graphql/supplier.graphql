@@ -1,7 +1,5 @@
 query Supplier {
-  data {
-    ...SupplierData
-  }
+  data [SupplierData]
 }
 
 mutation createSupplier {
@@ -15,6 +13,6 @@ fragment SupplierData on Supplier {
   createdAt
   updatedAt
   name
-  SupplierCode
+  code
   books
 }

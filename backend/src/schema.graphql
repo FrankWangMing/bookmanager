@@ -28,6 +28,8 @@ type Book {
   publish: String!
   readership: String!
   stock: Int!
+  supplier: Supplier!
+  supplierCode: String!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
@@ -60,8 +62,8 @@ input CreatePostInput {
 }
 
 input CreateSupplierInput {
+  code: String!
   name: String!
-  supplierCode: String!
 }
 
 """
@@ -82,6 +84,7 @@ input LoginInput {
 type Mutation {
   changePassword(data: ChangePasswordInput!): User!
   createBook(data: CreateBookInput!): Book!
+  createBookMany(data: CreateBookInput!): Book!
   createPost(data: CreatePostInput!): Post!
   createSupplier(data: CreateSupplierInput!): Supplier!
   login(data: LoginInput!): Auth!
@@ -146,6 +149,10 @@ enum PostOrderField {
 }
 
 type Query {
+  book(bookId: Int!): Book!
+  getAllUsers: [User!]!
+  getBooks: [Book!]!
+  getSupplier: [Supplier!]!
   hello(name: String!): String!
   helloWorld: String!
   me: User!
@@ -175,12 +182,12 @@ type Subscription {
 
 type Supplier {
   books: [Book!]
+  code: String!
 
   """Identifies the date and time when the object was created."""
   createdAt: DateTime!
   id: ID!
   name: String!
-  supplierCode: String!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
