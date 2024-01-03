@@ -7,6 +7,7 @@ import { Button, Input, Space, Table } from 'antd'
 import type { ColumnType, ColumnsType } from 'antd/es/table'
 import type { FilterConfirmProps } from 'antd/es/table/interface'
 import { viewmodel } from 'model'
+import { uniqueId } from 'lodash'
 
 interface DataType {
   key: string
@@ -32,7 +33,6 @@ export default observer(() => {
   const [data, setData] = useState<DataType[]>([])
   const searchInput = useRef<InputRef>(null)
   useEffect(() => {
-    console.log('books')
     setData(viewmodel.booksModel.booksList)
   }, [viewmodel.booksModel.booksList])
   const handleSearch = (
@@ -131,6 +131,7 @@ export default observer(() => {
     render: (text) =>
       searchedColumn === dataIndex ? (
         <Highlighter
+          key={uniqueId()}
           highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
           searchWords={[searchText]}
           autoEscape
@@ -206,5 +207,5 @@ export default observer(() => {
     }
   ]
 
-  return <Table columns={columns} dataSource={data} />
+  return <Table columns={columns} rowKey={'id'} dataSource={data} />
 })

@@ -7,6 +7,7 @@ export type LoginProps = {
 }
 // Define mutation
 export const login = ({ email, password }: LoginProps) => {
+  console.log('LOGIN', email, password)
   return client.mutate({
     mutation: gql`
       mutation {

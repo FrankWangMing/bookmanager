@@ -12,7 +12,6 @@ export class Users {
 
   async login(params: LoginProps) {
     const { data } = await login(params)
-    // console.log(data)
     if (data) {
       localStorage.setItem('token', data.login.accessToken)
     }
@@ -20,8 +19,9 @@ export class Users {
   }
   async fetchUserInfo() {
     const { data } = await userInfo()
-    console.log(data)
     this.userInfo = get(data, 'me', {})
+    console.log(this.userInfo)
+
     return data
   }
 }

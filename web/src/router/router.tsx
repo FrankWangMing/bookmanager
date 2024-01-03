@@ -13,6 +13,7 @@ export const router = createHashRouter([
     Component: Main,
     children: [
       {
+        index: true,
         path: 'dashboard',
         Component: Dashboard
       },
@@ -27,7 +28,8 @@ export const router = createHashRouter([
       {
         path: 'books',
         Component: Books
-      }, {
+      },
+      {
         path: 'test',
         Component: Example
       }
