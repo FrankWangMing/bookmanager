@@ -1,6 +1,5 @@
 import { createBrowserRouter, createHashRouter } from 'react-router-dom'
 import { Login } from '../pages/Login'
-import Example from '../pages/test'
 import { Me } from '../pages/Me'
 import { Main } from '../pages/Main'
 import { Users } from 'pages/Main/Users'
@@ -28,10 +27,6 @@ export const router = createHashRouter([
       {
         path: 'books',
         Component: Books
-      },
-      {
-        path: 'test',
-        Component: Example
       }
     ]
   },
