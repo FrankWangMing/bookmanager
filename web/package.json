@@ -7,10 +7,12 @@
     "email": "joaopaulomoraes@outlook.com",
     "url": "https://github.com/joaopaulomoraes"
   },
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/joaopaulomoraes/reactjs-vite-tailwindcss-boilerplate/issues",
     "email": "joaopaulomoraes@outlook.com"
   },
+  "private":"true",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
