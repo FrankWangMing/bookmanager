@@ -12,7 +12,8 @@ COPY nginx ./
 RUN npm config set registry https://registry.npm.taobao.org/
 
 RUN yarn cache clean
-
+RUN apt-get update && apt-get install -y \
+    libvips \
 RUN yarn
 
 COPY . .
