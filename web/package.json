@@ -12,7 +12,7 @@
     "url": "https://github.com/joaopaulomoraes/reactjs-vite-tailwindcss-boilerplate/issues",
     "email": "joaopaulomoraes@outlook.com"
   },
-  "private":"true",
+  "private": "true",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
