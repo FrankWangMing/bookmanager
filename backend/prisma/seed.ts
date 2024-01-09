@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { random, uniqueId } from "lodash";
 
 const prisma = new PrismaClient();
 
@@ -75,15 +76,15 @@ async function main() {
 
   await prisma.supplier.create({
     data: {
-      name: "wang",
-      code: "wang",
+      name: "王明",
+      code: "wangming" + uniqueId(),
     },
   });
   for (let index = 0; index < 100; index++) {
     await prisma.book.create({
       data: {
-        name: "从此爱上写作文-小学生注音看图作文（1-3年级适用）",
-        bookNumber: 170228 + index,
+        name: "从此爱上写作文-小学生注音看图作文(1-3年级适用)",
+        bookNumber: 170228 + index + random(),
         author: "张在军 著",
         printTime: "2014-10-01",
         classification: "G",

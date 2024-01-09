@@ -18,7 +18,7 @@ interface DataType {
   stock: number //库存
   price: number //价格
   author: string //作者
-  print_time: string //印刷时间
+  printTime: string //印刷时间
   readership: string //读者对象
   classification: string //中图分类
   address: string //库位
@@ -187,9 +187,9 @@ export default observer(() => {
     },
     {
       title: '印刷时间',
-      dataIndex: 'print_time',
-      key: 'print_time',
-      ...getColumnSearchProps('print_time')
+      dataIndex: 'printTime',
+      key: 'printTime',
+      ...getColumnSearchProps('printTime')
     },
     {
       title: '读者对象',

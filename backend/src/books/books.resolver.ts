@@ -16,6 +16,8 @@ import { UserEntity } from "src/common/decorators/user.decorator";
 import { Supplier } from "src/supplier/model/supplier.model";
 import { CreateBookInput, SearchBookInput } from "./dto/createBook.input";
 import { BookIdArgs } from "./dto/book-id.args";
+import { log } from "console";
+import { gt } from "lodash";
 
 const pubSub = new PubSub();
 @Resolver(() => Book)
@@ -37,14 +39,19 @@ export class BooksResolver {
         },
       })
       .then((r) => {
+        console.log(r);
         if (r == null) {
           return this.prisma.book
             .create({
               data,
             })
             .then((newBook) => {
+              console.log(newBook);
               pubSub.publish("bookCreated", { postCreated: newBook });
               return newBook;
+            })
+            .catch((e) => {
+              console.log(e);
             });
         } else {
           return this.prisma.book.update({
@@ -83,7 +90,9 @@ export class BooksResolver {
 
   @Query(() => [Book])
   async getBooks() {
-    return this.prisma.book.findMany();
+    return (await this.prisma.book.findMany()).sort((a, b) => {
+      return b.createdAt.getTime() - a.createdAt.getTime();
+    });
   }
   @Query(() => Book)
   async book(@Args() id: BookIdArgs) {
