@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 import { get } from 'lodash'
-import { bookList } from 'service/books'
+import { bookList, uploadBooks } from 'service/books'
 import { RootViewModel } from 'model'
 
 export class Books {
@@ -16,5 +16,8 @@ export class Books {
     console.log(data)
     this.booksList = get(data, 'data.getBooks', [])
     return this.booksList
+  }
+  async upload(data: any) {
+    return await uploadBooks(data)
   }
 }

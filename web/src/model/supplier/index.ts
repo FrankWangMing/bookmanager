@@ -17,4 +17,10 @@ export class Supplier {
     this.supplierList = get(data, 'data.getSupplier', [])
     return this.supplierList
   }
+
+  async fetchBooksBySupplierCode(code: string) {
+    const data = await supplierList()
+    this.supplierList = get(data, 'data.getSupplier', [])
+    return this.supplierList
+  }
 }

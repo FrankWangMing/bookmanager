@@ -9,7 +9,7 @@ export default defineConfig({
   },
   plugins: [react(), tsconfigPaths()],
   build: {
-    assetsDir: "assets",
-    outDir: "dist"
-  },
+    assetsDir: 'assets',
+    outDir: 'dist'
+  }
 })

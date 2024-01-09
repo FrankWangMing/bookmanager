@@ -1,13 +1,12 @@
 module.exports = ({
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    './node_modules/flowbite-react/lib/esm/**/*.js'],
+    "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
     },
   },
-  plugins: [require('flowbite/plugin')],
+  plugins: [],
   corePlugins: {
     preflight: false
   }
