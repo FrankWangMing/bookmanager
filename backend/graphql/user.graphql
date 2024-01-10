@@ -19,7 +19,7 @@ mutation ChangePassword {
 fragment UserData on User {
   id
   email
-  firstname
+  username
   lastname
   role
 }

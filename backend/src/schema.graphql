@@ -87,6 +87,9 @@ type Mutation {
   createBookMany(data: CreateBookInput!): Book!
   createPost(data: CreatePostInput!): Post!
   createSupplier(data: CreateSupplierInput!): Supplier!
+  createUser(data: SignupInput!): User!
+  deleteUserById(email: String!): User!
+  findUser(data: SignupInput!): [User!]!
   login(data: LoginInput!): Auth!
   refreshToken(token: JWT!): Token!
   signup(data: SignupInput!): Auth!
@@ -186,9 +189,8 @@ input SearchBookInput {
 
 input SignupInput {
   email: String!
-  firstname: String
-  lastname: String
   password: String!
+  username: String!
 }
 
 type Subscription {
@@ -219,20 +221,18 @@ type Token {
 }
 
 input UpdateUserInput {
-  firstname: String
-  lastname: String
+  username: String
 }
 
 type User {
   """Identifies the date and time when the object was created."""
   createdAt: DateTime!
   email: String!
-  firstname: String
   id: ID!
-  lastname: String
   posts: [Post!]
   role: Role!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
+  username: String
 }

@@ -27,9 +27,64 @@ export const userInfo = () => {
         me {
           id
           email
-          firstname
-          lastname
+          username
           role
+        }
+      }
+    `
+  })
+}
+
+export const createUser = (data: {
+  email: any
+  password: any
+  username: any
+}) => {
+  console.log(data)
+  const { email, password, username } = data
+  return client.mutate({
+    mutation: gql`
+      mutation {
+        signup(
+          data: { email: "${email}", password: "${password}", username:  "${username}", }
+        ) {
+          accessToken
+          refreshToken
+          userId
+        }
+      }
+    `
+  })
+}
+
+export const getAllUsers = () => {
+  return client.query({
+    query: gql`
+      query GetAllUsers {
+        getAllUsers {
+          createdAt
+          email
+          username
+          id
+          role
+          updatedAt
+        }
+      }
+    `
+  })
+}
+
+export const deleteUserById = (id: any) => {
+  return client.mutate({
+    mutation: gql`
+      mutation DeleteUserById {
+        deleteUserById(email: "${id}") {
+          createdAt
+          email
+          id
+          role
+          updatedAt
+          username
         }
       }
     `

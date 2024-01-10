@@ -12,8 +12,7 @@ async function main() {
   const user1 = await prisma.user.create({
     data: {
       email: "lisa@simpson.com",
-      firstname: "Lisa",
-      lastname: "Simpson",
+      username: "Lisa",
       password: "$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm", // secret42
       role: "USER",
       posts: {
@@ -28,8 +27,7 @@ async function main() {
   const user2 = await prisma.user.create({
     data: {
       email: "bart@simpson.com",
-      firstname: "Bart",
-      lastname: "Simpson",
+      username: "Simpson",
       role: "ADMIN",
       password: "$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm", // secret42
       posts: {
@@ -51,8 +49,7 @@ async function main() {
   const user3 = await prisma.user.create({
     data: {
       email: "928783975@qq.com",
-      firstname: "WANG",
-      lastname: "MING",
+      username: "WANG",
       role: "ADMIN",
       password: "$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm", // secret42
       posts: {
@@ -77,14 +74,14 @@ async function main() {
   await prisma.supplier.create({
     data: {
       name: "王明",
-      code: "wangming" + uniqueId(),
+      code: "wang",
     },
   });
-  for (let index = 0; index < 100; index++) {
+  for (let index = 0; index < 10; index++) {
     await prisma.book.create({
       data: {
         name: "从此爱上写作文-小学生注音看图作文(1-3年级适用)",
-        bookNumber: 170228 + index + random(),
+        bookNumber: Number(170228 + index),
         author: "张在军 著",
         printTime: "2014-10-01",
         classification: "G",

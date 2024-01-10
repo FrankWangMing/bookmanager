@@ -35,6 +35,7 @@ const authLink = new ApolloLink((operation, forward) => {
   // ...
   // 获取令牌（这里假设你的令牌是存储在本地的）
   const token = localStorage.getItem('token')
+  console.log('token', token)
 
   // 将令牌添加到请求头中
   operation.setContext(({ headers = {} }) => ({
@@ -47,8 +48,8 @@ const authLink = new ApolloLink((operation, forward) => {
 })
 
 const errorLink = onError(({ response, networkError }) => {
-  console.log(response)
-  console.log(networkError)
+  console.log('response', response)
+  console.log('networkError', networkError)
   if (get(response, 'errors[0].extensions.code', null) == 'UNAUTHENTICATED') {
     router.navigate('/login')
   }

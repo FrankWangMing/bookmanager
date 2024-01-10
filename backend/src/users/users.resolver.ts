@@ -14,12 +14,15 @@ import { UsersService } from "./users.service";
 import { User } from "./models/user.model";
 import { ChangePasswordInput } from "./dto/change-password.input";
 import { UpdateUserInput } from "./dto/update-user.input";
+import { SignupInput } from "src/auth/dto/signup.input";
+import { AuthService } from "src/auth/auth.service";
 
 @Resolver(() => User)
 @UseGuards(GqlAuthGuard)
 export class UsersResolver {
   constructor(
     private usersService: UsersService,
+    private authService: AuthService,
     private prisma: PrismaService
   ) {}
 
@@ -50,9 +53,34 @@ export class UsersResolver {
     );
   }
 
+  @Mutation(() => User)
+  async createUser(@Args("data") data: SignupInput) {
+    return this.usersService.createUser(data);
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => User)
+  async deleteUserById(@Args("email") email: string) {
+    const deletedUser = await this.prisma.user.delete({
+      where: { email },
+    });
+    console.log(deletedUser);
+    return deletedUser;
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => [User])
+  findUser(@Args("data") data: SignupInput) {
+    return this.prisma.user.findFirst({
+      where: {
+        email: data.email,
+      },
+    });
+  }
+
   @Query(() => [User])
   getAllUsers() {
-    return this.prisma.user.findMany();
+    return this.usersService.getAllUsers();
   }
   @ResolveField("posts")
   posts(@Parent() author: User) {

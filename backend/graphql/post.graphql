@@ -49,7 +49,6 @@ fragment PostData on Post {
 fragment UserData on User {
   id
   email
-  firstname
-  lastname
+  username
   role
 }

@@ -1,22 +1,26 @@
-import { Button, Checkbox, Form, Input } from 'antd';
-import { observer } from 'mobx-react-lite';
-
-const onFinish = (values: any) => {
-    console.log('Success:', values);
-};
-
-const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-};
+import { Button, Checkbox, Form, FormInstance, Input } from 'antd'
+import { observer } from 'mobx-react-lite'
 
 type FieldType = {
-    username?: string;
-    password?: string;
-    remember?: string;
-};
+  username: string
+  email?: string
+  password?: string
+}
 
-export default observer(() => {
-    return <Form
+export default observer(
+  ({
+    form,
+    onFinish,
+    onFinishFailed
+  }: {
+    onFinish: (value: any) => void
+    onFinishFailed: (value: any) => void
+    form: FormInstance
+  }) => {
+    return (
+      <Form
+        form={form}
+        preserve={false}
         name="basic"
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 20 }}
@@ -25,42 +29,29 @@ export default observer(() => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
-    >
+      >
         <Form.Item<FieldType>
-            label="员工姓名"
-            name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
+          label="员工姓名"
+          name="username"
+          rules={[{ required: true, message: 'Please input your username!' }]}
         >
-            <Input />
-        </Form.Item>
-        <Form.Item<FieldType>
-            label="登录账号"
-            name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
-        >
-            <Input />
+          <Input />
         </Form.Item>
         <Form.Item<FieldType>
-            label="密码"
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
+          label="登录邮箱"
+          name="email"
+          rules={[{ required: true, message: 'Please input your username!' }]}
         >
-            <Input.Password />
+          <Input />
         </Form.Item>
-
         <Form.Item<FieldType>
-            name="remember"
-            valuePropName="checked"
-            wrapperCol={{ offset: 8, span: 16 }}
+          label="密码"
+          name="password"
+          rules={[{ required: true, message: 'Please input your password!' }]}
         >
-            <Checkbox>Remember me</Checkbox>
+          <Input.Password />
         </Form.Item>
-
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
-                Submit
-            </Button>
-        </Form.Item>
-    </Form>
-})
-
+      </Form>
+    )
+  }
+)

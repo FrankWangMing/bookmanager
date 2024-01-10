@@ -1,18 +1,19 @@
-import { PrismaService } from 'nestjs-prisma';
-import { Prisma, User } from '@prisma/client';
+import { PrismaService } from "nestjs-prisma";
+import { Prisma, User } from "@prisma/client";
 import {
   Injectable,
   NotFoundException,
   BadRequestException,
   ConflictException,
   UnauthorizedException,
-} from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
-import { PasswordService } from './password.service';
-import { SignupInput } from './dto/signup.input';
-import { Token } from './models/token.model';
-import { SecurityConfig } from 'src/common/configs/config.interface';
+} from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { JwtService } from "@nestjs/jwt";
+import { PasswordService } from "./password.service";
+import { SignupInput } from "./dto/signup.input";
+import { Token } from "./models/token.model";
+import { SecurityConfig } from "src/common/configs/config.interface";
+import { log } from "console";
 
 @Injectable()
 export class AuthService {
@@ -33,7 +34,7 @@ export class AuthService {
         data: {
           ...payload,
           password: hashedPassword,
-          role: 'USER',
+          role: "USER",
         },
       });
 
@@ -41,9 +42,10 @@ export class AuthService {
         userId: user.id,
       });
     } catch (e) {
+      console.log(e);
       if (
         e instanceof Prisma.PrismaClientKnownRequestError &&
-        e.code === 'P2002'
+        e.code === "P2002"
       ) {
         throw new ConflictException(`Email ${payload.email} already used.`);
       }
@@ -64,7 +66,7 @@ export class AuthService {
     );
 
     if (!passwordValid) {
-      throw new BadRequestException('Invalid password');
+      throw new BadRequestException("Invalid password");
     }
 
     return this.generateTokens({
@@ -77,11 +79,12 @@ export class AuthService {
   }
 
   getUserFromToken(token: string): Promise<User> {
-    const id = this.jwtService.decode(token)['userId'];
+    const id = this.jwtService.decode(token)["userId"];
     return this.prisma.user.findUnique({ where: { id } });
   }
 
   generateTokens(payload: { userId: string }): Token {
+    console.log(payload);
     return {
       accessToken: this.generateAccessToken(payload),
       refreshToken: this.generateRefreshToken(payload),
@@ -90,14 +93,14 @@ export class AuthService {
 
   private generateAccessToken(payload: { userId: string }): string {
     return this.jwtService.sign(payload, {
-      expiresIn: '12h',
+      expiresIn: "12h",
     });
   }
 
   private generateRefreshToken(payload: { userId: string }): string {
-    const securityConfig = this.configService.get<SecurityConfig>('security');
+    const securityConfig = this.configService.get<SecurityConfig>("security");
     return this.jwtService.sign(payload, {
-      secret: this.configService.get('JWT_REFRESH_SECRET'),
+      secret: this.configService.get("JWT_REFRESH_SECRET"),
       expiresIn: securityConfig.refreshIn,
     });
   }
@@ -105,7 +108,7 @@ export class AuthService {
   refreshToken(token: string) {
     try {
       const { userId } = this.jwtService.verify(token, {
-        secret: this.configService.get('JWT_REFRESH_SECRET'),
+        secret: this.configService.get("JWT_REFRESH_SECRET"),
       });
 
       return this.generateTokens({

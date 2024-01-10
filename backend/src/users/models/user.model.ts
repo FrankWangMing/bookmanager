@@ -22,10 +22,7 @@ export class User extends BaseModel {
   email: string;
 
   @Field(() => String, { nullable: true })
-  firstname?: string;
-
-  @Field(() => String, { nullable: true })
-  lastname?: string;
+  username?: string;
 
   @Field(() => Role)
   role: Role;

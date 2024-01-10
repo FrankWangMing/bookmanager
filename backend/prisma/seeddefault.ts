@@ -33,8 +33,7 @@ async function main() {
   const user1 = await prisma.user.create({
     data: {
       email: "lisa@simpson.com",
-      firstname: "Lisa",
-      lastname: "Simpson",
+      username: "Lisa",
       password: "$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm", // secret42
       role: "USER",
       posts: {
@@ -49,8 +48,7 @@ async function main() {
   const user2 = await prisma.user.create({
     data: {
       email: "bart@simpson.com",
-      firstname: "Bart",
-      lastname: "Simpson",
+      username: "Bart",
       role: "ADMIN",
       password: "$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm", // secret42
       posts: {
@@ -72,8 +70,7 @@ async function main() {
   const user3 = await prisma.user.create({
     data: {
       email: "928783975@qq.com",
-      firstname: "WANG",
-      lastname: "MING",
+      username: "WANG",
       role: "ADMIN",
       password: "$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm", // secret42
       posts: {
