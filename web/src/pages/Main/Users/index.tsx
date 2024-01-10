@@ -29,6 +29,9 @@ export const Users = observer(() => {
     console.log('Success:', values)
     viewmodel.userModel.createUserInfo(values).then((r) => {
       console.log(r)
+      viewmodel.userModel.getUsers().then((r) => {
+        console.log(viewmodel.userModel.allUsers.length)
+      })
     })
   }
 

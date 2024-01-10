@@ -1,49 +1,48 @@
-import { Field, ObjectType } from "@nestjs/graphql";
-import { User } from "src/users/models/user.model";
-import { BaseModel } from "src/common/models/base.model";
-import { Supplier } from "src/supplier/model/supplier.model";
+import { Field, ObjectType } from '@nestjs/graphql'
+import { BaseModel } from 'src/common/models/base.model'
+import { Supplier } from 'src/supplier/model/supplier.model'
 
 @ObjectType()
 export class Book extends BaseModel {
   @Field(() => Number)
-  bookNumber: number;
+  bookNumber: number
 
   @Field(() => String)
-  name: string;
+  name: string
 
   @Field(() => String)
-  publish: string;
+  publish: string
 
   @Field(() => Number)
-  discount: number;
+  discount: number
 
   @Field(() => Number)
-  stock: number;
+  stock: number
 
   @Field(() => Number)
-  price: number;
+  price: number
 
   @Field(() => String)
-  author: string;
+  author: string
 
   @Field(() => String)
-  printTime: string;
+  printTime: string
 
   @Field(() => String)
-  readership: string;
+  readership: string
 
   @Field(() => String)
-  classification: string;
+  classification: string
 
   @Field(() => String)
-  address: string;
+  address: string
 
   @Field(() => String)
-  format: string;
+  format: string
 
   @Field(() => Supplier, { nullable: false })
-  supplier: Supplier;
+  supplier: Supplier
 
   @Field(() => String)
-  supplierCode: string;
+  supplierCode: string
 }

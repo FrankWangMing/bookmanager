@@ -1,49 +1,49 @@
-import { IsNotEmpty } from "class-validator";
-import { InputType, PartialType, Field } from "@nestjs/graphql";
+import { IsNotEmpty } from 'class-validator'
+import { InputType, PartialType, Field } from '@nestjs/graphql'
 
 @InputType()
 export class CreateBookInput {
   @Field()
   @IsNotEmpty()
-  supplierCode: string;
+  supplierCode: string
 
   @Field()
   @IsNotEmpty()
-  bookNumber: number;
+  bookNumber: number
 
   @Field()
   @IsNotEmpty()
-  name: string;
+  name: string
 
   @Field()
-  publish: string;
+  publish: string
 
   @Field()
-  discount: number;
+  discount: number
 
   @Field()
-  stock: number;
+  stock: number
 
   @Field()
-  price: number;
+  price: number
 
   @Field()
-  author: string;
+  author: string
 
   @Field()
-  printTime: string;
+  printTime: string
 
   @Field()
-  readership: string;
+  readership: string
 
   @Field()
-  classification: string;
+  classification: string
 
   @Field()
-  address: string;
+  address: string
 
   @Field()
-  format: string;
+  format: string
 }
 
 @InputType()

@@ -1,4 +1,4 @@
-FROM node
+FROM node:14
 RUN openssl version -v
 RUN uname -a
 RUN echo $DATABASE_URL
@@ -7,11 +7,9 @@ RUN echo $DATABASE_URL
 WORKDIR /app
 
 # Install prisma for the migration
-RUN npm install -g prisma
-RUN npm install -g prisma-dbml-generator
-
+RUN npm install -g prisma --unsafe-perm
 
 # Copy schema and migration folder
 ADD ./ ./prisma/
 
-CMD [ "prisma", "migrate", "dev"]
+CMD [ "prisma", "migrate", "up", "--experimental"]

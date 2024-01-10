@@ -50,7 +50,10 @@ export const createUser = (data: {
         ) {
           accessToken
           refreshToken
-          userId
+          user {
+            username
+            email
+          }
         }
       }
     `
@@ -70,7 +73,8 @@ export const getAllUsers = () => {
           updatedAt
         }
       }
-    `
+    `,
+    fetchPolicy: 'network-only'
   })
 }
 

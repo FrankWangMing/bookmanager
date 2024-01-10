@@ -56,11 +56,6 @@ input CreateBookInput {
   supplierCode: String!
 }
 
-input CreatePostInput {
-  content: String!
-  title: String!
-}
-
 input CreateSupplierInput {
   code: String!
   name: String!
@@ -85,70 +80,12 @@ type Mutation {
   changePassword(data: ChangePasswordInput!): User!
   createBook(data: CreateBookInput!): Book!
   createBookMany(data: CreateBookInput!): Book!
-  createPost(data: CreatePostInput!): Post!
   createSupplier(data: CreateSupplierInput!): Supplier!
-  createUser(data: SignupInput!): User!
   deleteUserById(email: String!): User!
-  findUser(data: SignupInput!): [User!]!
   login(data: LoginInput!): Auth!
   refreshToken(token: JWT!): Token!
   signup(data: SignupInput!): Auth!
   updateUser(data: UpdateUserInput!): User!
-}
-
-"""
-Possible directions in which to order a list of items when provided an `orderBy` argument.
-"""
-enum OrderDirection {
-  asc
-  desc
-}
-
-type PageInfo {
-  endCursor: String
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: String
-}
-
-type Post {
-  author: User
-  content: String
-
-  """Identifies the date and time when the object was created."""
-  createdAt: DateTime!
-  id: ID!
-  published: Boolean!
-  title: String!
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: DateTime!
-}
-
-type PostConnection {
-  edges: [PostEdge!]
-  pageInfo: PageInfo!
-  totalCount: Int!
-}
-
-type PostEdge {
-  cursor: String!
-  node: Post!
-}
-
-input PostOrder {
-  direction: OrderDirection!
-  field: PostOrderField!
-}
-
-"""Properties by which post connections can be ordered."""
-enum PostOrderField {
-  content
-  createdAt
-  id
-  published
-  title
-  updatedAt
 }
 
 type Query {
@@ -159,10 +96,7 @@ type Query {
   hello(name: String!): String!
   helloWorld: String!
   me: User!
-  post(postId: String!): Post!
-  publishedPosts(after: String, before: String, first: Int, last: Int, orderBy: PostOrder, query: String, skip: Int): PostConnection!
   searchBooks(data: SearchBookInput!): [Book!]!
-  userPosts(userId: String!): [Post!]!
 }
 
 """User role"""
@@ -195,7 +129,6 @@ input SignupInput {
 
 type Subscription {
   bookCreated: Book!
-  postCreated: Post!
   supplierCreated: Supplier!
 }
 
@@ -221,7 +154,8 @@ type Token {
 }
 
 input UpdateUserInput {
-  username: String
+  firstname: String
+  lastname: String
 }
 
 type User {
@@ -229,10 +163,9 @@ type User {
   createdAt: DateTime!
   email: String!
   id: ID!
-  posts: [Post!]
   role: Role!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
-  username: String
+  username: String!
 }

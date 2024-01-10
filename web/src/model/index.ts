@@ -21,9 +21,3 @@ export class RootViewModel {
 }
 
 export const viewmodel = new RootViewModel()
-
-autorun(() => {
-  if (viewmodel.userModel.userInfo) {
-    viewmodel.init()
-  }
-})

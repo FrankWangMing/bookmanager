@@ -19,7 +19,6 @@ model User {
   email     String   @unique
   password  String
   username  String
-  posts     Post[]
   role      Role
 }
 
@@ -50,17 +49,6 @@ model Book {
   format         String //开本
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-}
-
-model Post {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  published Boolean
-  title     String
-  content   String?
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  String?
 }
 
 enum Role {
