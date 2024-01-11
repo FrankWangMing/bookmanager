@@ -79,13 +79,14 @@ input LoginInput {
 type Mutation {
   changePassword(data: ChangePasswordInput!): User!
   createBook(data: CreateBookInput!): Book!
-  createBookMany(data: CreateBookInput!): Book!
+  createBookMany(data: createManyBookInput!): [Book!]!
   createSupplier(data: CreateSupplierInput!): Supplier!
   deleteUserById(email: String!): User!
   login(data: LoginInput!): Auth!
   refreshToken(token: JWT!): Token!
   signup(data: SignupInput!): Auth!
-  updateUser(data: UpdateUserInput!): User!
+  updateSupplier(data: CreateSupplierInput!): Supplier!
+  updateUser(data: UpdateUserInput!, id: String!): User!
 }
 
 type Query {
@@ -154,8 +155,7 @@ type Token {
 }
 
 input UpdateUserInput {
-  firstname: String
-  lastname: String
+  username: String
 }
 
 type User {
@@ -168,4 +168,8 @@ type User {
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
   username: String!
+}
+
+input createManyBookInput {
+  data: [CreateBookInput!]!
 }

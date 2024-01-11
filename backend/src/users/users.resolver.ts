@@ -24,10 +24,10 @@ export class UsersResolver {
   @UseGuards(GqlAuthGuard)
   @Mutation(() => User)
   async updateUser(
-    @UserEntity() user: User,
-    @Args('data') newUserData: UpdateUserInput
+    @Args('id') id: string,
+    @Args('data') user: UpdateUserInput
   ) {
-    return this.usersService.updateUser(user.id, newUserData)
+    return this.usersService.updateUser(id, user)
   }
 
   @UseGuards(GqlAuthGuard)

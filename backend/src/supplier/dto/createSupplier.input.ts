@@ -11,3 +11,14 @@ export class CreateSupplierInput {
   @IsNotEmpty()
   code: string
 }
+
+@InputType()
+export class UpdateSupplierInput {
+  @Field()
+  @IsNotEmpty()
+  name: string
+
+  @Field()
+  @IsNotEmpty()
+  code: string
+}

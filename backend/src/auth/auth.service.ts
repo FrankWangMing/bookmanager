@@ -89,7 +89,9 @@ export class AuthService {
   }
 
   private generateAccessToken(payload: { userId: string }): string {
-    return this.jwtService.sign(payload)
+    return this.jwtService.sign(payload, {
+      expiresIn: 86400000
+    })
   }
 
   private generateRefreshToken(payload: { userId: string }): string {

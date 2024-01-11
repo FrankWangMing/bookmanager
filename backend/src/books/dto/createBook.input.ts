@@ -48,3 +48,9 @@ export class CreateBookInput {
 
 @InputType()
 export class SearchBookInput extends PartialType(CreateBookInput) {}
+
+@InputType()
+export class createManyBookInput {
+  @Field()
+  data: CreateBookInput[]
+}

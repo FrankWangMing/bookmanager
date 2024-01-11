@@ -9,9 +9,13 @@ import {
 } from '../../service/users'
 import { get } from 'lodash'
 import { RootViewModel } from 'model'
-
+type UserInfo = {
+  email: string
+  username: string
+  password: string
+}
 export class Users {
-  userInfo: any = null
+  userInfo: UserInfo | null = null
   allUsers: any[] = []
   root: RootViewModel
   constructor(root: RootViewModel) {
@@ -52,4 +56,6 @@ export class Users {
   async deleteUserById(id: any) {
     return await deleteUserById(id)
   }
+
+  async updateUserInfo(data: { email: any; password: any; username: any }) {}
 }

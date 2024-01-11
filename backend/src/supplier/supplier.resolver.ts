@@ -38,11 +38,25 @@ export class SupplierResolver {
     return newSupplier
   }
 
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => Supplier)
+  async updateSupplier(@Args('data') data: CreateSupplierInput) {
+    const newSupplier = this.prisma.supplier.update({
+      data: {
+        code: data.code,
+        name: data.name
+      },
+      where: {
+        code: data.code
+      }
+    })
+    await pubSub.publish('supplierCreated', { supplierCreated: newSupplier })
+    return newSupplier
+  }
+
   @Query(() => [Supplier])
   async getSupplier() {
     return this.prisma.supplier.findMany()
-
-    // await pubSub.publish("supplierCreated", { supplierCreated: newSupplier });
   }
 
   @ResolveField('books')

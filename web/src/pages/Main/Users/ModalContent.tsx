@@ -1,5 +1,6 @@
 import { Button, Checkbox, Form, FormInstance, Input } from 'antd'
 import { observer } from 'mobx-react-lite'
+import { modelStatusType } from '.'
 
 type FieldType = {
   username: string
@@ -11,11 +12,13 @@ export default observer(
   ({
     form,
     onFinish,
-    onFinishFailed
+    onFinishFailed,
+    modelStatus
   }: {
     onFinish: (value: any) => void
     onFinishFailed: (value: any) => void
     form: FormInstance
+    modelStatus: modelStatusType
   }) => {
     return (
       <Form

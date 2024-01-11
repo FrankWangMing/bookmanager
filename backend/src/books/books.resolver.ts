@@ -13,7 +13,11 @@ import { PubSub } from 'graphql-subscriptions'
 import { UseGuards } from '@nestjs/common'
 import { GqlAuthGuard } from 'src/auth/gql-auth.guard'
 import { Supplier } from 'src/supplier/model/supplier.model'
-import { CreateBookInput, SearchBookInput } from './dto/createBook.input'
+import {
+  CreateBookInput,
+  SearchBookInput,
+  createManyBookInput
+} from './dto/createBook.input'
 import { BookIdArgs } from './dto/book-id.args'
 
 const pubSub = new PubSub()
@@ -62,27 +66,14 @@ export class BooksResolver {
   }
 
   @UseGuards(GqlAuthGuard)
-  @Mutation(() => Book)
-  async createBookMany(@Args('data') data: CreateBookInput) {
-    const newBook = this.prisma.book.create({
-      data: {
-        supplierCode: data.supplierCode,
-        bookNumber: data.bookNumber,
-        name: data.name,
-        publish: data.publish,
-        discount: data.discount,
-        stock: data.stock,
-        price: data.price,
-        author: data.author,
-        printTime: data.printTime,
-        readership: data.readership,
-        classification: data.classification,
-        address: data.address,
-        format: data.format
-      }
+  @Mutation(() => [Book])
+  async createBookMany(@Args('data') data: createManyBookInput) {
+    const newBooks = await this.prisma.book.createMany({
+      data: data.data
     })
-    await pubSub.publish('bookCreated', { postCreated: newBook })
-    return newBook
+
+    // await pubSub.publish('bookCreated', { postCreated: newBook })
+    return newBooks
   }
 
   @Query(() => [Book])

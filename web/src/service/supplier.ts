@@ -13,6 +13,39 @@ export const supplierList: any = () => {
           code
         }
       }
+    `,
+    fetchPolicy: 'network-only'
+  })
+}
+
+export const createSupplier: any = (code: string, name: string) => {
+  return client.mutate({
+    mutation: gql`
+      mutation CreateSupplier {
+        createSupplier(data: { code: "${code}", name: "${name}" }) {
+          code
+          createdAt
+          id
+          name
+          updatedAt
+        }
+      }
+    `
+  })
+}
+
+export const updateSupplier: any = (code: string, name: string) => {
+  return client.mutate({
+    mutation: gql`
+      mutation CreateSupplier {
+        updateSupplier(data: { code: "${code}", name: "${name}" }) {
+          code
+          createdAt
+          id
+          name
+          updatedAt
+        }
+      }
     `
   })
 }

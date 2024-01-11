@@ -60,6 +60,31 @@ export const createUser = (data: {
   })
 }
 
+export const updateUser = (data: {
+  email: any
+  password: any
+  username: any
+}) => {
+  console.log(data)
+  const { email, password, username } = data
+  return client.mutate({
+    mutation: gql`
+      mutation {
+        signup(
+          data: { email: "${email}", password: "${password}", username:  "${username}", }
+        ) {
+          accessToken
+          refreshToken
+          user {
+            username
+            email
+          }
+        }
+      }
+    `
+  })
+}
+
 export const getAllUsers = () => {
   return client.query({
     query: gql`

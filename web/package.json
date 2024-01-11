@@ -76,6 +76,6 @@
     "vitest": "^0.34.1"
   },
   "overrides": {
-  "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz"
-}
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz"
+  }
 }
