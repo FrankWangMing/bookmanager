@@ -11,7 +11,8 @@ import { observer } from 'mobx-react-lite'
 import { viewmodel } from 'model'
 import { useState } from 'react'
 import { router } from 'router/router'
-
+import bg0 from './bg0.mp4'
+import bg1 from './bg1.mp4'
 const Page = () => {
   const { token } = theme.useToken()
   const [form] = Form.useForm()
@@ -44,7 +45,9 @@ const Page = () => {
     >
       <LoginFormPage
         form={form}
-        backgroundVideoUrl={`public/bg${ceil(random(10, 20, false)) % 2}.mp4 `}
+        backgroundVideoUrl={[bg0, bg1].find((_, idx) => {
+          return ceil(random(10, 20, false) % 2) == idx
+        })}
         // backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
         title="图书管理系统"
         containerStyle={{
