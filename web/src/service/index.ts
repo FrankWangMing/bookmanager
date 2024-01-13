@@ -5,6 +5,7 @@ import {
   ApolloLink
 } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
+import { message } from 'antd/lib'
 import { get } from 'lodash'
 import { router } from 'router/router'
 
@@ -32,6 +33,7 @@ const authLink = new ApolloLink((operation, forward) => {
 const errorLink = onError(({ response, networkError }) => {
   console.log('response', response)
   console.log('networkError', networkError)
+  if (response) message.error(get(response, 'errors[0].message', null))
   if (get(response, 'errors[0].extensions.code', null) == 'UNAUTHENTICATED') {
     router.navigate('/login')
   }

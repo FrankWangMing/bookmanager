@@ -5,7 +5,7 @@ import {
   ProFormCheckbox,
   ProFormText
 } from '@ant-design/pro-components'
-import { Button, Form, Spin, theme } from 'antd'
+import { Button, Form, Spin, notification, theme } from 'antd'
 import { ceil, random } from 'lodash'
 import { observer } from 'mobx-react-lite'
 import { viewmodel } from 'model'
@@ -25,11 +25,12 @@ const Page = () => {
         password: loginData.password
       })
       .then((r) => {
+        console.log(r)
         setTimeout(() => {
           if (r) {
+            notification.success('登录成功')
             setSpinState(false)
             viewmodel.userModel.fetchUserInfo()
-
             router.navigate('/dashboard')
           }
         }, 3000)
