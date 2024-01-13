@@ -6,13 +6,13 @@ import { uniqueId } from 'lodash'
 const { Column, ColumnGroup } = Table
 
 interface DataType {
-  条码: number
-  图书编号: number
+  条码: string
+  图书编号: string
   书名: string
   出版社: string
-  定价: number
-  折扣: number
-  库存: number
+  定价: string
+  折扣: string
+  库存: string
   开本: string
   作者: string
   中图分类: string

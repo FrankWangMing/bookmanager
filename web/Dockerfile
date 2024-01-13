@@ -1,25 +1,25 @@
-# FROM node AS builder
+FROM node AS builder
 
 
-# # Create app directory
-# WORKDIR /app
+# Create app directory
+WORKDIR /app
 
-# # A wildcard is used to ensure both package.json AND package-lock.json are copied
-# COPY package.json ./
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+COPY package.json ./
 
-# COPY yarn.lock ./
+COPY yarn.lock ./
 
-# COPY nginx ./
+COPY nginx ./
 
-# # Install app dependencies
-# RUN npm config set registry https://registry.npm.taobao.org/
+# Install app dependencies
+RUN npm config set registry https://registry.npm.taobao.org/
 
-# RUN yarn cache clean
+RUN yarn cache clean
 
-# RUN yarn
+RUN yarn
 
 
-# COPY . .
+COPY . .
 
 
 
