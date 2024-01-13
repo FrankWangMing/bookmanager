@@ -16,7 +16,7 @@ import { Supplier } from 'src/supplier/model/supplier.model'
 import {
   CreateBookInput,
   SearchBookInput,
-  createManyBookInput
+  SearchBookResult
 } from './dto/createBook.input'
 import { BookIdArgs } from './dto/book-id.args'
 
@@ -30,7 +30,7 @@ export class BooksResolver {
     return pubSub.asyncIterator('bookCreated')
   }
 
-  @UseGuards(GqlAuthGuard)
+  // @UseGuards(GqlAuthGuard)
   @Mutation(() => Book)
   async createBook(@Args('data') data: CreateBookInput) {
     return this.prisma.book
@@ -65,73 +65,72 @@ export class BooksResolver {
       })
   }
 
-  @UseGuards(GqlAuthGuard)
-  @Mutation(() => [Book])
-  async createBookMany(@Args('data') data: createManyBookInput) {
+  // @UseGuards(GqlAuthGuard)
+  @Mutation(() => Number)
+  async CreateManyBook(
+    @Args({ name: 'data', type: () => [CreateBookInput] })
+    data: [CreateBookInput]
+  ) {
     const newBooks = await this.prisma.book.createMany({
-      data: data.data
+      data: data,
+      skipDuplicates: true
     })
+    console.log('dd', newBooks)
 
     // await pubSub.publish('bookCreated', { postCreated: newBook })
-    return newBooks
+    return 1
   }
 
+  @UseGuards(GqlAuthGuard)
   @Query(() => [Book])
   async getBooks() {
     return (await this.prisma.book.findMany()).sort((a, b) => {
       return b.createdAt.getTime() - a.createdAt.getTime()
     })
   }
-  @Query(() => Book)
-  async book(@Args() id: BookIdArgs) {
-    return this.prisma.book.findUnique({ where: { bookNumber: id.bookId } })
-  }
 
-  @Query(() => [Book])
-  async searchBooks(@Args('data') data: SearchBookInput) {
-    console.log(data.bookNumber)
-    if (data.bookNumber) {
-      return [
-        await this.prisma.book.findUnique({
-          where: { bookNumber: data.bookNumber }
-        })
-      ]
-    } else {
-      return await this.prisma.book.findMany({
+  @UseGuards(GqlAuthGuard)
+  @Query(() => SearchBookResult)
+  async getBooksBySearch(@Args('data') data: SearchBookInput) {
+    const result = await (
+      await this.prisma.book.findMany({
         where: {
-          discount: data.discount,
-          price: data.price,
-          stock: data.stock,
-          address: {
-            contains: data.address
+          name: {
+            contains: data.name
+          },
+          bookNumber: {
+            contains: data.bookNumber
+          },
+          supplierCode: {
+            contains: data.supplierCode
+          },
+          discount: {
+            contains: data.discount
           },
           author: {
             contains: data.author
           },
-          classification: {
-            contains: data.classification
-          },
-          format: {
-            contains: data.format
-          },
-          name: {
-            contains: data.name
-          },
-          printTime: {
-            contains: data.printTime
-          },
-          publish: {
-            contains: data.publish
-          },
           readership: {
             contains: data.readership
-          },
-          supplierCode: {
-            contains: data.supplierCode
           }
-        }
+        },
+        take: data.pageSize,
+        skip: (data.current - 1) * data.pageSize
       })
+    ).sort((a, b) => {
+      return b.createdAt.getTime() - a.createdAt.getTime()
+    })
+    return {
+      data: result,
+      page: data.current,
+      total: (await this.prisma.book.findMany()).length
     }
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Query(() => Book)
+  async book(@Args() id: BookIdArgs) {
+    return this.prisma.book.findUnique({ where: { bookNumber: id.bookId } })
   }
 
   @ResolveField('supplier', () => Supplier)

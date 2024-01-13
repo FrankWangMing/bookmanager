@@ -1,5 +1,6 @@
 import { IsNotEmpty } from 'class-validator'
-import { InputType, PartialType, Field } from '@nestjs/graphql'
+import { InputType, PartialType, Field, ObjectType } from '@nestjs/graphql'
+import { Book } from '../models/book.model'
 
 @InputType()
 export class CreateBookInput {
@@ -9,7 +10,7 @@ export class CreateBookInput {
 
   @Field()
   @IsNotEmpty()
-  bookNumber: number
+  bookNumber: string
 
   @Field()
   @IsNotEmpty()
@@ -19,13 +20,13 @@ export class CreateBookInput {
   publish: string
 
   @Field()
-  discount: number
+  discount: string
 
   @Field()
-  stock: number
+  stock: string
 
   @Field()
-  price: number
+  price: string
 
   @Field()
   author: string
@@ -47,10 +48,20 @@ export class CreateBookInput {
 }
 
 @InputType()
-export class SearchBookInput extends PartialType(CreateBookInput) {}
-
-@InputType()
-export class createManyBookInput {
+export class SearchBookInput extends PartialType(CreateBookInput) {
   @Field()
-  data: CreateBookInput[]
+  pageSize: number
+
+  @Field()
+  current: number
+}
+
+@ObjectType()
+export class SearchBookResult {
+  @Field()
+  data: Book[]
+  @Field()
+  page: number
+  @Field()
+  total: number
 }

@@ -11,6 +11,24 @@ export const supplierList: any = () => {
           name
           updatedAt
           code
+          books {
+            address
+            author
+            bookNumber
+            classification
+            createdAt
+            discount
+            format
+            id
+            name
+            price
+            printTime
+            publish
+            readership
+            stock
+            supplierCode
+            updatedAt
+          }
         }
       }
     `,

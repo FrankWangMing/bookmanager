@@ -14,7 +14,6 @@ export class RootViewModel {
     this.booksModel = new Books(this)
   }
   async init() {
-    // await
     await this.supplierModel.fetchSupplierList()
     await this.booksModel.fetchBooksList()
   }

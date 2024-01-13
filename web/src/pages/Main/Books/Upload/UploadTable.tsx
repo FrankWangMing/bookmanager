@@ -35,7 +35,7 @@ export default observer(({ data }: { data: DataType[] }) => {
       <Column title="中图分类" dataIndex="中图分类" key={uniqueId()} />
       <Column title="印刷时间" dataIndex="印刷时间" key={uniqueId()} />
       <Column title="读者对象" dataIndex="读者对象" key={uniqueId()} />
-      <Column
+      {/* <Column
         title="Action"
         key="action"
         render={(_: any, record: DataType) => (
@@ -44,7 +44,7 @@ export default observer(({ data }: { data: DataType[] }) => {
             <a>Delete</a>
           </Space>
         )}
-      />
+      /> */}
     </Table>
   )
 })

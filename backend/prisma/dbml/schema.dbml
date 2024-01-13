@@ -23,14 +23,14 @@ Table Supplier {
 
 Table Book {
   id Int [increment, not null]
-  bookNumber Int [pk]
+  bookNumber String [pk]
   supplier Supplier [not null]
   supplierCode String [not null]
   name String [not null]
   publish String [not null]
-  discount Int [not null]
-  stock Int [not null]
-  price Int [not null]
+  discount String [not null]
+  stock String [not null]
+  price String [not null]
   author String [not null]
   printTime String [not null]
   readership String [not null]

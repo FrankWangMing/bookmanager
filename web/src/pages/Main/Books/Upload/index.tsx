@@ -1,5 +1,5 @@
 import { Tabs, UploadProps, message, Button, Upload, Select } from 'antd'
-import { isNull, map, uniqueId } from 'lodash'
+import { entries, fromPairs, isNull, map, uniqueId } from 'lodash'
 import { observer } from 'mobx-react-lite'
 import { useState } from 'react'
 import { read, utils } from 'xlsx'
@@ -26,9 +26,11 @@ export interface President {
 
 export default observer(() => {
   const [tabItems, setTabItems] = useState<any>([])
-  const [bookdatas, setBookDatas] = useState<Map<string, any[]>>(new Map())
+  const [booksdata, setBooksData] = useState<Map<string, any[]>>(new Map())
   const [activeKey, setActiveKey] = useState<string>('')
-
+  const [supplierCode, setSupplierCode] = useState<string>(
+    viewmodel.supplierModel.supplierList[0]?.code
+  )
   const onChange = (key: string) => {
     console.log(key)
     setActiveKey(key)
@@ -47,7 +49,7 @@ export default observer(() => {
     })
     setTabItems(newPanes)
     setActiveKey(file.uid)
-    setBookDatas(bookdatas.set(file.uid, data))
+    setBooksData(booksdata.set(file.uid, data))
   }
 
   const props: UploadProps = {
@@ -104,9 +106,39 @@ export default observer(() => {
   /* the component state is an array of objects */
 
   /* Fetch and update the state once */
+  const getKey = (value: string) => {
+    return {
+      // 条码: 'j',
+      图书编号: 'bookNumber',
+      书名: 'name',
+      出版社: 'publish',
+      定价: 'price',
+      折扣: 'discount',
+      库存: 'stock',
+      开本: 'format',
+      作者: 'author',
+      印刷时间: 'printTime',
+      中图分类: 'classification',
+      读者对象: 'readership',
+      库位: 'address'
+    }[value]
+  }
   const uploadBooks = () => {
-    console.log(Array.from(bookdatas.values()))
-    viewmodel.booksModel.uploadManyBooks([])
+    viewmodel.booksModel.uploadManyBooks(
+      Array.from(booksdata.values()).map((i) => {
+        console.log(i)
+        return i.map((_i) => {
+          return {
+            ...fromPairs(
+              entries(_i).map((i) => {
+                return [getKey(i[0]), i[1]]
+              })
+            ),
+            supplierCode
+          }
+        })
+      })
+    )
   }
   return (
     <div className="w-full">
@@ -119,10 +151,12 @@ export default observer(() => {
           ),
           right: (
             <>
+              <span>供应商：</span>
               <Select
-                value={''}
+                value={supplierCode}
                 onChange={(value) => {
                   console.log(value)
+                  setSupplierCode(value)
                 }}
                 style={{ width: 120 }}
               >
@@ -136,6 +170,7 @@ export default observer(() => {
                 onClick={() => {
                   uploadBooks()
                 }}
+                type="primary"
               >
                 一键上传
               </Button>

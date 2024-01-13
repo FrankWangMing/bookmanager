@@ -43,16 +43,16 @@ input ChangePasswordInput {
 input CreateBookInput {
   address: String!
   author: String!
-  bookNumber: Int!
+  bookNumber: String!
   classification: String!
-  discount: Int!
+  discount: String!
   format: String!
   name: String!
-  price: Int!
+  price: String!
   printTime: String!
   publish: String!
   readership: String!
-  stock: Int!
+  stock: String!
   supplierCode: String!
 }
 
@@ -77,9 +77,9 @@ input LoginInput {
 }
 
 type Mutation {
+  CreateManyBook(data: [CreateBookInput!]!): Int!
   changePassword(data: ChangePasswordInput!): User!
   createBook(data: CreateBookInput!): Book!
-  createBookMany(data: createManyBookInput!): [Book!]!
   createSupplier(data: CreateSupplierInput!): Supplier!
   deleteUserById(email: String!): User!
   login(data: LoginInput!): Auth!
@@ -90,14 +90,14 @@ type Mutation {
 }
 
 type Query {
-  book(bookId: Int!): Book!
+  book(bookId: String!): Book!
   getAllUsers: [User!]!
   getBooks: [Book!]!
+  getBooksBySearch(data: SearchBookInput!): SearchBookResult!
   getSupplier: [Supplier!]!
   hello(name: String!): String!
   helloWorld: String!
   me: User!
-  searchBooks(data: SearchBookInput!): [Book!]!
 }
 
 """User role"""
@@ -109,17 +109,25 @@ enum Role {
 input SearchBookInput {
   address: String
   author: String
-  bookNumber: Int
+  bookNumber: String
   classification: String
-  discount: Int
+  current: Int!
+  discount: String
   format: String
   name: String
-  price: Int
+  pageSize: Int!
+  price: String
   printTime: String
   publish: String
   readership: String
-  stock: Int
+  stock: String
   supplierCode: String
+}
+
+type SearchBookResult {
+  data: [Book!]!
+  page: Int!
+  total: Int!
 }
 
 input SignupInput {
@@ -168,8 +176,4 @@ type User {
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
   username: String!
-}
-
-input createManyBookInput {
-  data: [CreateBookInput!]!
 }

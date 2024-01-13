@@ -1,4 +1,4 @@
-import { createBrowserRouter, createHashRouter } from 'react-router-dom'
+import { createHashRouter } from 'react-router-dom'
 import { Login } from '../pages/Login'
 import { Me } from '../pages/Me'
 import { Main } from '../pages/Main'
@@ -6,6 +6,11 @@ import { Users } from 'pages/Main/Users'
 import { Books } from 'pages/Main/Books'
 import Supplier from 'pages/Main/Supplier'
 import Dashboard from 'pages/Main/Dashboard'
+import { observer } from 'mobx-react-lite'
+const Error = observer(() => {
+  return <div>djkls</div>
+})
+
 export const router = createHashRouter([
   {
     path: '/',
@@ -36,6 +41,10 @@ export const router = createHashRouter([
   },
   {
     path: '/me',
-    element: <Me />
+    Component: Me
+  },
+  {
+    path: '*',
+    errorElement: <Error />
   }
 ])

@@ -34,7 +34,7 @@ export const Main = observer(() => {
   const [modal, contextHolder] = Modal.useModal()
 
   useEffect(() => {
-    console.log(viewmodel.userModel.userInfo)
+    localStorage.getItem('token') || router.navigate('/login')
   }, [])
   const [collapsed, setCollapsed] = useState(false)
   const {

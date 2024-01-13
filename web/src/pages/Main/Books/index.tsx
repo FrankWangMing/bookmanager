@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import { useCallback, useEffect } from 'react'
-import BookContent from './table'
+import BookContent, { DataType } from './table'
 import { viewmodel } from 'model'
 import {
   Button,
@@ -32,10 +32,17 @@ export const Books = observer(() => {
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const handleOk = () => {}
-  const handleCancel = () => {}
+  const handleCancel = () => {
+    setIsModalOpen(false)
+  }
+
+  const [data, setData] = useState<DataType[]>([])
+  useEffect(() => {
+    console.log(data)
+  }, [data])
   return (
     <div className="">
-      <Space>
+      <Space className="mb-3">
         <Button
           onClick={() => {
             setIsModalOpen(true)
@@ -43,41 +50,7 @@ export const Books = observer(() => {
         >
           上传
         </Button>
-        <Button onClick={exportFile}>导出</Button>
-        <Button
-          onClick={() => {
-            viewmodel.booksModel.upload({}).then((r) => {
-              console.log(r)
-            })
-          }}
-        >
-          新增
-        </Button>
       </Space>
-      <table>
-        {/* The `thead` section includes the table header row */}
-        <thead>
-          <tr>
-            <th>中图分类</th>
-            <th>书名</th>
-            <th>作者</th>
-            <th>出版社</th>
-          </tr>
-        </thead>
-        {/* The `tbody` section includes the data rows */}
-        <tbody>
-          {/* generate row (TR) for each president */}
-          {pres.map((row) => (
-            <tr key={uniqueId()}>
-              {/* Generate cell (TD) for name / index */}
-              <td>{row.中图分类}</td>
-              <td>{row.书名}</td>
-              <td>{row.作者}</td>
-              <td>{row.出版社}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
       <BookContent />
       <Drawer
         title={'上传图书'}
@@ -86,8 +59,6 @@ export const Books = observer(() => {
         open={isModalOpen}
         size={'large'}
         width={1800}
-        // onOk={handleOk}
-        // onCancel={handleCancel}
       >
         <UploadDrawer></UploadDrawer>
       </Drawer>

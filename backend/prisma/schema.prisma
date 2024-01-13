@@ -33,14 +33,14 @@ model Supplier {
 
 model Book {
   id             Int      @default(autoincrement())
-  bookNumber     Int      @id @unique //图书编号 
+  bookNumber     String   @id @unique //图书编号 
   supplier       Supplier @relation(fields: [supplierCode], references: [code])
   supplierCode   String
   name           String //书名
   publish        String //出版社
-  discount       Int //折扣
-  stock          Int //库存
-  price          Int //价格
+  discount       String //折扣
+  stock          String //库存
+  price          String //价格
   author         String //作者
   printTime      String //印刷时间
   readership     String //读者对象

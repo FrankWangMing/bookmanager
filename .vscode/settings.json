@@ -3,11 +3,14 @@
         "antd",
         "autorun",
         "bookmanager",
+        "booksdata",
         "devoxa",
         "firstname",
         "lastname",
         "nestjs",
         "Popconfirm",
+        "signup",
+        "tailwindcss",
         "viewmodel"
     ]
 }

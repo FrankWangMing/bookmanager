@@ -1,19 +1,3 @@
-// import {
-//   ApolloClient,
-//   InMemoryCache,
-//   ApolloProvider,
-//   gql
-// } from '@apollo/client'
-// const token = localStorage.getItem('token')
-
-// export const client = new ApolloClient({
-//   uri: 'http://123.207.29.109:3000/graphql',
-//   cache: new InMemoryCache(),
-//   headers: {
-//     Authorization: `Bearer ${token}`
-//   }
-// })
-
 import {
   ApolloClient,
   InMemoryCache,
@@ -35,7 +19,6 @@ const authLink = new ApolloLink((operation, forward) => {
   // ...
   // 获取令牌（这里假设你的令牌是存储在本地的）
   const token = localStorage.getItem('token')
-  console.log('token', token)
 
   // 将令牌添加到请求头中
   operation.setContext(({ headers = {} }) => ({

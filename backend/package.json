@@ -30,6 +30,8 @@
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "migrate:dev": "prisma migrate dev --preview-feature",
+    "migrate:dev:add":"prisma migrate dev --name add-fields",
+    "migrate:dev:change":"migrate dev --name type-change",
     "migrate:dev:create": "prisma migrate dev --create-only --preview-feature",
     "migrate:reset": "prisma migrate reset --preview-feature",
     "migrate:deploy": "npx prisma migrate deploy --preview-feature",

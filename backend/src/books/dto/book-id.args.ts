@@ -4,5 +4,5 @@ import { IsNotEmpty } from 'class-validator'
 @ArgsType()
 export class BookIdArgs {
   @IsNotEmpty()
-  bookId: number
+  bookId: string
 }
