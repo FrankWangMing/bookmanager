@@ -1,13 +1,13 @@
-version: "3.8"
+version: '3.8'
 services:
-  backend-bookmanager:
+  bookmanager:
     platform: linux/amd64
-    container_name: backend-bookmanager
+    container_name: bookmanager
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - postgres
     env_file:
@@ -17,10 +17,10 @@ services:
 
   postgres:
     image: postgres
-    container_name: backend-postgres
+    container_name: postgres
     restart: always
     ports:
-      - "5432:5432"
+      - '5432:5432'
     env_file:
       - .env
     volumes:
