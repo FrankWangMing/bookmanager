@@ -55,7 +55,7 @@ export const createSupplier: any = (code: string, name: string) => {
 export const updateSupplier: any = (code: string, name: string) => {
   return client.mutate({
     mutation: gql`
-      mutation CreateSupplier {
+      mutation updateSupplier {
         updateSupplier(data: { code: "${code}", name: "${name}" }) {
           code
           createdAt

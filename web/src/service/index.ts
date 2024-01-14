@@ -10,8 +10,8 @@ import { get } from 'lodash'
 import { router } from 'router/router'
 
 const httpLink = createHttpLink({
-  // uri: 'http://127.0.0.1:3000/graphql'
-  uri: 'http://123.207.29.109:3000/graphql'
+  uri: 'http://127.0.0.1:3000/graphql'
+  // uri: 'http://123.207.29.109:3000/graphql'
 })
 
 const authLink = new ApolloLink((operation, forward) => {

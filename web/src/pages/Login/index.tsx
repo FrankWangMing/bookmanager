@@ -28,7 +28,11 @@ const Page = () => {
         console.log(r)
         setTimeout(() => {
           if (r) {
-            notification.success('登录成功')
+            notification.success({
+              message: '提示',
+              description: '登录成功',
+              duration: 1000
+            })
             setSpinState(false)
             viewmodel.userModel.fetchUserInfo()
             router.navigate('/dashboard')

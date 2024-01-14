@@ -4,8 +4,8 @@ import { Supplier } from 'src/supplier/model/supplier.model'
 
 @ObjectType()
 export class Book extends BaseModel {
-  @Field(() => Number)
-  bookNumber: number
+  @Field(() => String)
+  bookNumber: string
 
   @Field(() => String)
   name: string
@@ -13,14 +13,14 @@ export class Book extends BaseModel {
   @Field(() => String)
   publish: string
 
-  @Field(() => Number)
-  discount: number
+  @Field(() => String)
+  discount: string
 
-  @Field(() => Number)
-  stock: number
+  @Field(() => String)
+  stock: string
 
-  @Field(() => Number)
-  price: number
+  @Field(() => String)
+  price: string
 
   @Field(() => String)
   author: string

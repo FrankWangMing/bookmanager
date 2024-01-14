@@ -24,6 +24,7 @@ import { viewmodel } from 'model'
 import {
   Dictionary,
   NumericDictionary,
+  assign,
   entries,
   fromPairs,
   map,
@@ -57,26 +58,19 @@ const columns: ProColumns<DataType>[] = [
     title: '图书编号',
     dataIndex: 'bookNumber',
     copyable: true,
-    ellipsis: true,
     valueType: 'text',
-    tip: '标题过长会自动收缩',
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: '此项为必填项'
-        }
-      ]
-    }
+    sorter: true
   },
   {
     title: '书名',
     key: 'name',
     dataIndex: 'name',
     copyable: true,
+    ellipsis: true,
     valueType: 'text',
-    sorter: true
+    tip: '标题过长会自动收缩'
   },
+
   {
     title: '出版社',
     key: 'publish',
@@ -89,69 +83,79 @@ const columns: ProColumns<DataType>[] = [
     key: 'price',
     dataIndex: 'price',
     valueType: 'text',
-    sorter: true
+    sorter: true,
+    hideInSearch: true
   },
   {
     title: '折扣',
     key: 'discount',
     dataIndex: 'discount',
     valueType: 'text',
-    sorter: true
+    sorter: true,
+    hideInSearch: true
   },
   {
     title: '库存',
     key: 'stock',
     dataIndex: 'stock',
     valueType: 'text',
-    sorter: true
+    sorter: true,
+    hideInSearch: true
   },
   {
     title: '作者',
     key: 'author',
     dataIndex: 'author',
     valueType: 'text',
-    sorter: true
+    sorter: true,
+    hideInSearch: true
   },
   {
     title: '读者对象',
     key: 'readership',
     dataIndex: 'readership',
     valueType: 'text',
-    sorter: true
+    sorter: true,
+    hideInSearch: true
   },
   {
     title: '库位',
     key: 'address',
     dataIndex: 'address',
     valueType: 'text',
-    sorter: true
+    sorter: true,
+    hideInSearch: true
   },
   {
     title: '印刷时间',
     dataIndex: 'printTime',
     valueType: 'date',
-    hideInTable: true
+    hideInSearch: true
   },
   {
     title: '中图分类',
     key: 'classification',
     dataIndex: 'classification',
     valueType: 'text',
-    sorter: true
-    // hideInSearch: true
+    sorter: true,
+    hideInSearch: true
   },
   {
     title: '供应商',
     key: 'supplierCode',
     dataIndex: 'supplierCode',
-    valueType: 'text',
+    valueType: 'select',
     sorter: true,
-    render: (item, record) => {
-      console.log(item)
-      return (
-        <div key={uniqueId()}>
-          <Tag>{item}</Tag>
-        </div>
+    valueEnum: () => {
+      return viewmodel.supplierModel.supplierList.reduce(
+        (pre, current: any) => {
+          return assign(pre, {
+            [current['code']]: {
+              text: current.code
+            }
+          })
+        },
+        {}
       )
     }
   },
@@ -161,12 +165,12 @@ const columns: ProColumns<DataType>[] = [
     key: 'option',
     render: (text, record, _, action) => [
       <a
-        key="editable"
+        key="delete"
         onClick={() => {
           action?.startEditable?.(record.id)
         }}
       >
-        编辑
+        删除
       </a>,
       <Button
         key="bijia"
@@ -177,15 +181,7 @@ const columns: ProColumns<DataType>[] = [
         }}
       >
         淘宝比价
-      </Button>,
-      <TableDropdown
-        key="actionGroup"
-        onSelect={() => action?.reload()}
-        menus={[
-          { key: 'copy', name: '复制' },
-          { key: 'delete', name: '删除' }
-        ]}
-      />
+      </Button>
     ]
   }
 ]
@@ -233,7 +229,7 @@ export const Books = observer(() => {
         cardBordered
         request={async (params, sort, filter) => {
           console.log(sort, filter, params)
-          await waitTime(2000)
+          await waitTime(500)
           return viewmodel.booksModel
             .getBooksBySearch({
               ...params

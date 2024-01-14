@@ -15,6 +15,7 @@ import { GqlAuthGuard } from 'src/auth/gql-auth.guard'
 import { Supplier } from 'src/supplier/model/supplier.model'
 import {
   CreateBookInput,
+  DashBoardData,
   SearchBookInput,
   SearchBookResult
 } from './dto/createBook.input'
@@ -28,6 +29,49 @@ export class BooksResolver {
   @Subscription(() => Book)
   bookCreated() {
     return pubSub.asyncIterator('bookCreated')
+  }
+
+  @Query(() => DashBoardData)
+  async dashBoard() {
+    const targetDate = new Date()
+    targetDate.setHours(0, 0, 0, 0)
+    const beforeDate = new Date()
+    beforeDate.setHours(0, 0, 0, 0)
+    beforeDate.setDate(targetDate.getDate() - 1)
+    const data = await this.prisma.book.findMany({
+      where: {
+        updatedAt: {
+          gte: targetDate
+        }
+      }
+    })
+    const beforeData = await this.prisma.book.findMany({
+      where: {
+        updatedAt: {
+          lte: targetDate,
+          gt: beforeDate
+        }
+      }
+    })
+    return {
+      data,
+      quantity: {
+        num: data.reduce((pre, current) => {
+          return (pre += Number(current.stock))
+        }, 0),
+        before:
+          data.reduce((pre, current) => {
+            return (pre += Number(current.stock))
+          }, 0) -
+          beforeData.reduce((pre, current) => {
+            return (pre += Number(current.stock))
+          }, 0)
+      },
+      bookType: {
+        num: data.length,
+        before: data.length - beforeData.length
+      }
+    }
   }
 
   // @UseGuards(GqlAuthGuard)
@@ -71,14 +115,51 @@ export class BooksResolver {
     @Args({ name: 'data', type: () => [CreateBookInput] })
     data: [CreateBookInput]
   ) {
-    const newBooks = await this.prisma.book.createMany({
-      data: data,
-      skipDuplicates: true
+    data.map(async (i) => {
+      await this.prisma.book.upsert({
+        where: {
+          bookNumber: i.bookNumber
+        },
+        create: {
+          supplierCode: String(i.supplierCode),
+          bookNumber: String(i.bookNumber),
+          name: String(i.name),
+          publish: String(i.publish),
+          discount: String(i.discount),
+          stock: String(i.stock),
+          price: String(i.price),
+          author: String(i.author),
+          printTime: String(i.printTime),
+          readership: String(i.readership),
+          classification: String(i.classification),
+          address: String(i.address),
+          format: String(i.format)
+        },
+        update: {
+          supplierCode: String(i.supplierCode),
+          name: String(i.name),
+          publish: String(i.publish),
+          discount: String(i.discount),
+          stock: String(i.stock),
+          price: String(i.price),
+          author: String(i.author),
+          printTime: String(i.printTime),
+          readership: String(i.readership),
+          classification: String(i.classification),
+          address: String(i.address),
+          format: String(i.format)
+        }
+      })
     })
-    console.log('dd', newBooks)
+    return 1
+    // return this.prisma.book.
+    // const res = await this.prisma.book.createMany({
+    //   data: data
+    //   // skipDuplicates: true
+    // })
+    // console.log(res)
 
     // await pubSub.publish('bookCreated', { postCreated: newBook })
-    return 1
   }
 
   @UseGuards(GqlAuthGuard)
@@ -103,15 +184,6 @@ export class BooksResolver {
           },
           supplierCode: {
             contains: data.supplierCode
-          },
-          discount: {
-            contains: data.discount
-          },
-          author: {
-            contains: data.author
-          },
-          readership: {
-            contains: data.readership
           }
         },
         take: data.pageSize,
@@ -123,7 +195,21 @@ export class BooksResolver {
     return {
       data: result,
       page: data.current,
-      total: (await this.prisma.book.findMany()).length
+      total: (
+        await this.prisma.book.findMany({
+          where: {
+            name: {
+              contains: data.name
+            },
+            bookNumber: {
+              contains: data.bookNumber
+            },
+            supplierCode: {
+              contains: data.supplierCode
+            }
+          }
+        })
+      ).length
     }
   }
 

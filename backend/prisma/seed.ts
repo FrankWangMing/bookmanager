@@ -3,6 +3,7 @@ const prisma = new PrismaClient()
 
 async function main() {
   await prisma.user.deleteMany()
+  await prisma.book.deleteMany()
 
   console.log('Seeding...')
 

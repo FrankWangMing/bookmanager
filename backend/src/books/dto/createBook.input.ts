@@ -65,3 +65,24 @@ export class SearchBookResult {
   @Field()
   total: number
 }
+
+@ObjectType()
+class DashBoardBefore {
+  @Field()
+  num: number
+
+  @Field()
+  before: number
+}
+
+@ObjectType()
+export class DashBoardData {
+  @Field()
+  data: Book[]
+
+  @Field()
+  quantity: DashBoardBefore
+
+  @Field()
+  bookType: DashBoardBefore
+}

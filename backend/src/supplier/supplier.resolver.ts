@@ -41,6 +41,7 @@ export class SupplierResolver {
   @UseGuards(GqlAuthGuard)
   @Mutation(() => Supplier)
   async updateSupplier(@Args('data') data: CreateSupplierInput) {
+    console.log(data)
     const newSupplier = this.prisma.supplier.update({
       data: {
         code: data.code,
@@ -50,7 +51,6 @@ export class SupplierResolver {
         code: data.code
       }
     })
-    await pubSub.publish('supplierCreated', { supplierCreated: newSupplier })
     return newSupplier
   }
 

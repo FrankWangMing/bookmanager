@@ -40,9 +40,14 @@ export default observer(() => {
     if (status == 'create') {
       viewmodel.supplierModel.createSupplier(code, name).then((r) => {
         console.log(r)
+        viewmodel.supplierModel.fetchSupplierList()
       })
     }
     if (status == 'edit') {
+      viewmodel.supplierModel.updateSupplier(code, name).then((r) => {
+        console.log(r)
+        viewmodel.supplierModel.fetchSupplierList()
+      })
     }
   }
 

@@ -29,6 +29,43 @@ export const bookList: any = () => {
   })
 }
 
+export const fetchDashBoardBookList: any = () => {
+  return client.query({
+    query: gql`
+      query dashBoard {
+        dashBoard {
+          data {
+            address
+            author
+            bookNumber
+            classification
+            createdAt
+            discount
+            format
+            id
+            name
+            price
+            printTime
+            publish
+            readership
+            stock
+            supplierCode
+            updatedAt
+          }
+          bookType {
+            num
+            before
+          }
+          quantity {
+            num
+            before
+          }
+        }
+      }
+    `
+  })
+}
+
 export const getBooksBySearch: any = (data: any) => {
   return client.query({
     query: gql`

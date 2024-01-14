@@ -5,7 +5,7 @@ import { uniqueId } from 'lodash'
 
 const { Column, ColumnGroup } = Table
 
-interface DataType {
+export interface DataType {
   条码: string
   图书编号: string
   书名: string
@@ -23,7 +23,7 @@ interface DataType {
 export default observer(({ data }: { data: DataType[] }) => {
   return (
     <Table dataSource={data}>
-      <Column title="条码" dataIndex="条码" key={uniqueId()} />
+      {/* <Column title="条码" dataIndex="条码" key={uniqueId()} /> */}
       <Column title="图书编号" dataIndex="图书编号" key={uniqueId()} />
       <Column title="书名" dataIndex="书名" key={uniqueId()} />
       <Column title="出版社" dataIndex="出版社" key={uniqueId()} />

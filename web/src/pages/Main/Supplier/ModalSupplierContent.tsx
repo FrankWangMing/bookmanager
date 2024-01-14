@@ -36,6 +36,8 @@ export default observer(
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        okText={'确认'}
+        cancelText={'取消'}
       >
         <Form
           form={form}
@@ -56,6 +58,7 @@ export default observer(
             <Input />
           </Form.Item>
           <Form.Item<FieldType>
+            hidden={status == 'edit' ? true : false}
             label="供应商代码"
             name="code"
             rules={[{ required: true, message: '请输入供应商代码!' }]}

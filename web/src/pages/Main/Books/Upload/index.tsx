@@ -1,5 +1,13 @@
-import { Tabs, UploadProps, message, Button, Upload, Select } from 'antd'
-import { entries, fromPairs, isNull, map, uniqueId } from 'lodash'
+import {
+  Tabs,
+  UploadProps,
+  message,
+  Button,
+  Upload,
+  Select,
+  notification
+} from 'antd'
+import { entries, fromPairs, get, isNull, map, uniqueId } from 'lodash'
 import { observer } from 'mobx-react-lite'
 import { useState } from 'react'
 import { read, utils } from 'xlsx'
@@ -14,13 +22,13 @@ export interface President {
   作者: string
   出版社: string
   印刷时间: string
-  图书编号: number
-  定价: number
+  图书编号: string
+  定价: string
   库位: string
-  库存: number
+  库存: string
   开本: string
-  折扣: number
-  条码: number
+  折扣: string
+  条码: string
   读者对象: string
 }
 
@@ -31,6 +39,7 @@ export default observer(() => {
   const [supplierCode, setSupplierCode] = useState<string>(
     viewmodel.supplierModel.supplierList[0]?.code
   )
+  const [uploadLoading, setUploadLoading] = useState(false)
   const onChange = (key: string) => {
     console.log(key)
     setActiveKey(key)
@@ -40,10 +49,11 @@ export default observer(() => {
     newPanes.push({
       key: file.uid,
       label: file.name,
+      closable: true,
       children: (
         <UploadTable
           key={uniqueId()}
-          data={map(data, (i) => ({ ...i, key: uniqueId() }))}
+          data={map(data, (i) => ({ ...i }))}
         ></UploadTable>
       )
     })
@@ -124,21 +134,41 @@ export default observer(() => {
     }[value]
   }
   const uploadBooks = () => {
-    viewmodel.booksModel.uploadManyBooks(
-      Array.from(booksdata.values()).map((i) => {
-        console.log(i)
-        return i.map((_i) => {
-          return {
-            ...fromPairs(
-              entries(_i).map((i) => {
-                return [getKey(i[0]), i[1]]
-              })
-            ),
-            supplierCode
-          }
+    setUploadLoading(true)
+    viewmodel.booksModel
+      .uploadManyBooks(
+        Array.from(booksdata.values()).map((i) => {
+          return i.map((_i) => {
+            return {
+              ...fromPairs(
+                entries(_i).map((i) => {
+                  return [getKey(i[0]), String(i[1])]
+                })
+              ),
+              supplierCode
+            }
+          })
         })
+      )
+      .then((i) => {
+        console.log(i)
+        setTimeout(() => {
+          setUploadLoading(false)
+
+          if (get(i, 'data.CreateManyBook', 0) == 1) {
+            notification.success({
+              message: '上传成功',
+              description: `一共上传了${Array.from(booksdata.values()).reduce(
+                (pre, current) => {
+                  return (pre += current.length)
+                },
+                0
+              )}条数据`
+              // duration: 600
+            })
+          }
+        }, 3000)
       })
-    )
   }
   return (
     <div className="w-full">
@@ -170,7 +200,9 @@ export default observer(() => {
                 onClick={() => {
                   uploadBooks()
                 }}
+                disabled={booksdata.size == 0}
                 type="primary"
+                loading={uploadLoading}
               >
                 一键上传
               </Button>
