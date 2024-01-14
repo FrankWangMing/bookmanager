@@ -1,4 +1,4 @@
-FROM node AS builder
+FROM node:alpine AS builder
 
 
 # Create app directory
@@ -29,7 +29,7 @@ RUN yarn build
 
 
 
-FROM hub.c.163.com/library/nginx:latest
+FROM hub.c.163.com/library/nginx:alpine
 
 
 WORKDIR /app
