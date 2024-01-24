@@ -54,6 +54,9 @@ export class SearchBookInput extends PartialType(CreateBookInput) {
 
   @Field()
   current: number
+
+  @Field()
+  bookNumbers: SearchBookInput['bookNumber'][]
 }
 
 @ObjectType()

@@ -8,6 +8,7 @@ import { AuthService } from './auth.service'
 import { AuthResolver } from './auth.resolver'
 import { JwtStrategy } from './jwt.strategy'
 import { SecurityConfig } from 'src/common/configs/config.interface'
+import { UsersService } from 'src/users/users.service'
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { SecurityConfig } from 'src/common/configs/config.interface'
     })
   ],
   providers: [
+    UsersService,
     AuthService,
     AuthResolver,
     JwtStrategy,

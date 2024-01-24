@@ -1,18 +1,35 @@
 import { observer } from 'mobx-react-lite'
-import { Button, Collapse, Form, Input } from 'antd'
+import {
+  Button,
+  Collapse,
+  Form,
+  Input,
+  Popconfirm,
+  Tag,
+  notification
+} from 'antd'
 import { useState } from 'react'
 import ModalSupplierContent from './ModalSupplierContent'
 import { modelStatusType } from '../Users'
 import { viewmodel } from 'model'
-import { EditOutlined } from '@ant-design/icons'
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import UploadTable from '../Books/Upload/UploadTable'
-import { entries, filter, find, fromPairs, matches, uniqueId } from 'lodash'
+import {
+  entries,
+  filter,
+  find,
+  fromPairs,
+  get,
+  matches,
+  uniqueId
+} from 'lodash'
 import { SearchProps } from 'antd/es/input'
+import { t } from 'mobx-state-tree'
 
 export const getChineseKey = (value: string) => {
   return {
     // 条码: 'j',
-    bookNumber: '图书编号',
+    bookNumber: '书号',
     name: '书名',
     publish: '出版社',
     price: '定价',
@@ -88,7 +105,18 @@ export default observer(() => {
       code: data.code
     })
   }
-  console.log()
+  const deleteSupplier = async (data: { name: any; code: any }) => {
+    const supplier = await viewmodel.supplierModel.deleteSupplier(
+      data.code,
+      data.name
+    )
+    await viewmodel.supplierModel.fetchSupplierList()
+    notification.success({
+      message: '删除成功',
+      description: `已经删除   ${get(supplier, 'data.deleteSupplier.name')}`
+      // duration: 600
+    })
+  }
 
   return (
     <div className="max-h-full">
@@ -119,12 +147,15 @@ export default observer(() => {
         items={viewmodel.supplierModel.supplierList
           .filter((i) => {
             console.log(i)
-
             return i
           })
           .map((i: any) => ({
             key: i.code,
-            label: `${i.name}   ${i.code}`,
+            label: (
+              <>
+                <span>{i.name}</span> <Tag color="pink"> {i.code}</Tag>
+              </>
+            ),
             children: (
               <div key={uniqueId()}>
                 <UploadTable
@@ -142,13 +173,37 @@ export default observer(() => {
               </div>
             ),
             extra: (
-              <EditOutlined
-                className=" hover:bg-gray-400 p-2 rounded-xl"
-                onClick={(event) => {
-                  editSupplier(i)
-                  event.stopPropagation()
-                }}
-              />
+              <>
+                <Popconfirm
+                  placement="left"
+                  title={'提示'}
+                  description={'如果删除供应商，会删除该供应商的所有书籍'}
+                  okText="确认"
+                  cancelText="取消"
+                  onCancel={(event) => {
+                    if (event) event.stopPropagation()
+                  }}
+                  onConfirm={(event) => {
+                    deleteSupplier(i)
+                    if (event) event.stopPropagation()
+                  }}
+                >
+                  <DeleteOutlined
+                    className=" hover:bg-gray-400 p-2 rounded-xl"
+                    onClick={(event) => {
+                      event.stopPropagation()
+                    }}
+                  />
+                </Popconfirm>
+
+                <EditOutlined
+                  className=" hover:bg-gray-400 p-2 rounded-xl"
+                  onClick={(event) => {
+                    editSupplier(i)
+                    event.stopPropagation()
+                  }}
+                />
+              </>
             )
           }))}
       />

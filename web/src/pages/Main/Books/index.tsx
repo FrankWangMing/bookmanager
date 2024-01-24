@@ -1,7 +1,7 @@
 export interface DataType {
   id: string
   key: string
-  bookNumber: number //图书编号
+  bookNumber: number //书号
   name: string //书名
   publish: string //出版社
   discount: number //折扣
@@ -18,7 +18,17 @@ export interface DataType {
 import { EllipsisOutlined, PlusOutlined, DownOutlined } from '@ant-design/icons'
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { ProTable, TableDropdown } from '@ant-design/pro-components'
-import { Button, Drawer, Dropdown, Space, Tag } from 'antd'
+import {
+  Button,
+  Drawer,
+  Dropdown,
+  Space,
+  Tag,
+  UploadProps,
+  Upload as AntUpload,
+  message,
+  Modal
+} from 'antd'
 import { useCallback, useRef, useState } from 'react'
 import { viewmodel } from 'model'
 import {
@@ -26,13 +36,16 @@ import {
   NumericDictionary,
   assign,
   entries,
+  filter,
   fromPairs,
+  includes,
+  isNull,
   map,
   toPairs,
   toPairsIn,
   uniqueId
 } from 'lodash'
-import { utils, writeFile } from 'xlsx'
+import { read, utils, writeFile } from 'xlsx'
 import Upload, { President } from './Upload'
 import { observer } from 'mobx-react-lite'
 import { getChildType } from 'mobx-state-tree'
@@ -55,7 +68,7 @@ export const waitTime = async (time: number = 100) => {
 const columns: ProColumns<DataType>[] = [
   {
     key: 'bookNumber',
-    title: '图书编号',
+    title: '书号',
     dataIndex: 'bookNumber',
     copyable: true,
     valueType: 'text',
@@ -67,8 +80,7 @@ const columns: ProColumns<DataType>[] = [
     dataIndex: 'name',
     copyable: true,
     ellipsis: true,
-    valueType: 'text',
-    tip: '标题过长会自动收缩'
+    valueType: 'text'
   },
 
   {
@@ -164,23 +176,13 @@ const columns: ProColumns<DataType>[] = [
     valueType: 'option',
     key: 'option',
     render: (text, record, _, action) => [
-      <a
-        key="delete"
-        onClick={() => {
-          action?.startEditable?.(record.id)
-        }}
-      >
-        删除
-      </a>,
       <Button
         key="bijia"
         onClick={() => {
-          window.open(
-            'https://s.taobao.com/search?commend=all&ie=utf8&initiative_id=tbindexz_20170306&q=%E5%9B%BE%E4%B9%A6&search_type=item&sourceId=tb.index&spm=a21bo.jianhua.201856-taobao-item.2&ssid=s5-e'
-          )
+          window.open('http://129.28.70.91/')
         }}
       >
-        淘宝比价
+        比价
       </Button>
     ]
   }
@@ -220,24 +222,75 @@ export const Books = observer(() => {
     },
     [pres]
   )
+  const props: UploadProps = {
+    name: 'file',
+    showUploadList: false,
+    beforeUpload(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          if (e.target == null) return
+          const arrayBuffer = e.target.result
 
+          if (isNull(arrayBuffer)) return
+
+          const wb = read(arrayBuffer)
+
+          const ws = wb.Sheets[wb.SheetNames[0]] // get the first worksheet
+
+          const data: President[] = utils.sheet_to_json<President>(ws, {
+            // header: 1
+          }) // generate objects
+          console.log(data)
+          setSearchBookNumber(
+            data
+              .filter((i) => i.书号 != undefined)
+              .map((i) => {
+                return `${i.书号}`
+              })
+          )
+          setSearchIsModalOpen(true)
+          resolve(false)
+        }
+        reader.onerror = (error) => {
+          console.error('Error reading file:', error)
+          reject()
+        }
+        reader.readAsArrayBuffer(file)
+      })
+    }
+  }
+  const [isSearchModalOpen, setSearchIsModalOpen] = useState(false)
+  const [SearchBookNumber, setSearchBookNumber] = useState<string[]>([])
+
+  const handleOk = () => {
+    setSearchIsModalOpen(false)
+
+    actionRef.current?.reload()
+  }
+
+  const handleCancel = () => {
+    setSearchIsModalOpen(false)
+  }
   return (
     <>
       <ProTable<DataType>
         columns={columns}
         actionRef={actionRef}
         cardBordered
-        request={async (params, sort, filter) => {
-          console.log(sort, filter, params)
+        request={async (params) => {
           await waitTime(500)
           return viewmodel.booksModel
             .getBooksBySearch({
-              ...params
+              ...params,
+              bookNumbers: SearchBookNumber
             })
             .then((r) => {
-              setPres(r.data)
+              let data = r.data
+              setPres(data)
+              setSearchBookNumber([])
               return {
-                data: r.data,
+                data,
                 page: r.page,
                 success: true,
                 total: r.total
@@ -259,7 +312,42 @@ export const Books = observer(() => {
         }}
         rowKey="bookNumber"
         search={{
-          labelWidth: 'auto'
+          labelWidth: 'auto',
+          optionRender: (searchConfig, formProps, dom) => [
+            ...dom.reverse(),
+            <AntUpload
+              {...props}
+              onChange={(info) => {
+                if (info.file.status !== 'uploading') {
+                  console.log(info.file, info.fileList)
+                }
+                if (info.file.status === 'done') {
+                  console.log(info)
+                  message.success(
+                    `${info.file.name} file uploaded successfully`
+                  )
+                } else if (info.file.status === 'error') {
+                  message.error(`${info.file.name} file upload failed.`)
+                }
+              }}
+            >
+              <Button> 批量查询</Button>
+            </AntUpload>
+            //   <Button
+            //   key="out"
+            //   onClick={() => {
+            //     const values = searchConfig?.form?.getFieldsValue()
+            //     searchConfig?.form?.setFieldsValue({
+            //       bookNumber: '170229'
+            //     })
+            //     searchConfig.form?.submit()
+            //     console.log(searchConfig.form?.submit())
+            //   }}
+            // >
+
+            // </Button>
+            // </Upload>
+          ]
         }}
         options={{
           setting: {
@@ -292,7 +380,6 @@ export const Books = observer(() => {
             icon={<PlusOutlined />}
             onClick={() => {
               setIsModalOpen(true)
-
               // actionRef.current?.reload()
             }}
             type="primary"
@@ -328,6 +415,16 @@ export const Books = observer(() => {
           </Dropdown>
         ]}
       />
+      <Modal
+        title="批量查询"
+        open={isSearchModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        {SearchBookNumber.map((i) => {
+          return <p key={uniqueId()}>{i}</p>
+        })}
+      </Modal>
       <Drawer
         title={'上传图书'}
         placement="right"
@@ -338,7 +435,7 @@ export const Books = observer(() => {
         size={'large'}
         width={1800}
       >
-        <Upload></Upload>
+        <Upload setIsModalOpen={setIsModalOpen}></Upload>
       </Drawer>
     </>
   )

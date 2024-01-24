@@ -28,8 +28,6 @@ export class Books {
   }
   async getBooksBySearch(params: any) {
     const data = await getBooksBySearch(params)
-    console.log(data)
-
     return await get(data, 'data.getBooksBySearch', {})
   }
 

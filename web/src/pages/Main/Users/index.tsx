@@ -5,7 +5,7 @@ import { Space, Card, Button, Modal, Flex, Popconfirm, Tag } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import ModalContent from './ModalContent'
 import { useForm } from 'antd/es/form/Form'
-import { uniqueId } from 'lodash'
+import { get, uniqueId } from 'lodash'
 import { Users as UsersModel } from 'model/users'
 
 export type modelStatusType = 'create' | 'edit'
@@ -22,9 +22,13 @@ export const Users = observer(() => {
   }
 
   const handleOk = () => {
-    console.log(form.submit())
+    form.validateFields().then((r) => {
+      if (get(r, 'errorFields', []).length == 0) {
+        form.submit()
 
-    setIsModalOpen(false)
+        setIsModalOpen(false)
+      }
+    })
   }
 
   const handleCancel = () => {
@@ -41,7 +45,7 @@ export const Users = observer(() => {
         })
         break
       case 'edit':
-        viewmodel.userModel.createUserInfo(values).then((r) => {
+        viewmodel.userModel.updateUserInfo(values).then((r) => {
           console.log(r)
           viewmodel.userModel.getUsers().then((r) => {
             console.log(viewmodel.userModel.allUsers.length)

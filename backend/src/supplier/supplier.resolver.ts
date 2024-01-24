@@ -53,6 +53,22 @@ export class SupplierResolver {
     })
     return newSupplier
   }
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => Supplier)
+  async deleteSupplier(@Args('data') data: CreateSupplierInput) {
+    console.log(data)
+    await this.prisma.book.deleteMany({
+      where: {
+        supplierCode: data.code
+      }
+    })
+    const newSupplier = await this.prisma.supplier.delete({
+      where: {
+        code: data.code
+      }
+    })
+    return newSupplier
+  }
 
   @Query(() => [Supplier])
   async getSupplier() {

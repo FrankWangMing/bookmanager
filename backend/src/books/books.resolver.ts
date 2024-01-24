@@ -173,29 +173,10 @@ export class BooksResolver {
   @UseGuards(GqlAuthGuard)
   @Query(() => SearchBookResult)
   async getBooksBySearch(@Args('data') data: SearchBookInput) {
-    const result = await (
-      await this.prisma.book.findMany({
-        where: {
-          name: {
-            contains: data.name
-          },
-          bookNumber: {
-            contains: data.bookNumber
-          },
-          supplierCode: {
-            contains: data.supplierCode
-          }
-        },
-        take: data.pageSize,
-        skip: (data.current - 1) * data.pageSize
-      })
-    ).sort((a, b) => {
-      return b.createdAt.getTime() - a.createdAt.getTime()
-    })
-    return {
-      data: result,
-      page: data.current,
-      total: (
+    let result = []
+    let count = 0
+    if (data.bookNumbers.length == 0) {
+      result = await (
         await this.prisma.book.findMany({
           where: {
             name: {
@@ -207,9 +188,65 @@ export class BooksResolver {
             supplierCode: {
               contains: data.supplierCode
             }
-          }
+          },
+          take: data.pageSize,
+          skip: (data.current - 1) * data.pageSize
         })
-      ).length
+      ).sort((a, b) => {
+        return b.createdAt.getTime() - a.createdAt.getTime()
+      })
+      count = await this.prisma.book.count({
+        where: {
+          name: {
+            contains: data.name
+          },
+          bookNumber: {
+            contains: data.bookNumber
+          },
+          supplierCode: {
+            contains: data.supplierCode
+          }
+        }
+      })
+    } else {
+      result = await (
+        await this.prisma.book.findMany({
+          where: {
+            name: {
+              contains: data.name
+            },
+            bookNumber: {
+              in: data.bookNumbers
+            },
+            supplierCode: {
+              contains: data.supplierCode
+            }
+          },
+          take: data.pageSize,
+          skip: (data.current - 1) * data.pageSize
+        })
+      ).sort((a, b) => {
+        return b.createdAt.getTime() - a.createdAt.getTime()
+      })
+      count = await this.prisma.book.count({
+        where: {
+          name: {
+            contains: data.name
+          },
+          bookNumber: {
+            in: data.bookNumbers
+          },
+          supplierCode: {
+            contains: data.supplierCode
+          }
+        }
+      })
+    }
+
+    return {
+      data: result,
+      page: data.current,
+      total: count
     }
   }
 

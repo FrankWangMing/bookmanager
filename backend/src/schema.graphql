@@ -92,12 +92,13 @@ type Mutation {
   changePassword(data: ChangePasswordInput!): User!
   createBook(data: CreateBookInput!): Book!
   createSupplier(data: CreateSupplierInput!): Supplier!
+  deleteSupplier(data: CreateSupplierInput!): Supplier!
   deleteUserById(email: String!): User!
   login(data: LoginInput!): Auth!
   refreshToken(token: JWT!): Token!
   signup(data: SignupInput!): Auth!
+  update(data: SignupInput!): User!
   updateSupplier(data: CreateSupplierInput!): Supplier!
-  updateUser(data: UpdateUserInput!, id: String!): User!
 }
 
 type Query {
@@ -122,6 +123,7 @@ input SearchBookInput {
   address: String
   author: String
   bookNumber: String
+  bookNumbers: [String!]!
   classification: String
   current: Int!
   discount: String
@@ -172,10 +174,6 @@ type Token {
 
   """JWT refresh token"""
   refreshToken: JWT!
-}
-
-input UpdateUserInput {
-  username: String
 }
 
 type User {

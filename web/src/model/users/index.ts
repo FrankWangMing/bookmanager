@@ -5,6 +5,7 @@ import {
   getAllUsers,
   login,
   LoginProps,
+  updateUser,
   userInfo
 } from '../../service/users'
 import { get } from 'lodash'
@@ -47,6 +48,10 @@ export class Users {
     return await createUser(data)
   }
 
+  async updateUserInfo(data: { email: any; password: any; username: any }) {
+    return await updateUser(data)
+  }
+
   async getUsers() {
     const { data } = await getAllUsers()
     this.allUsers = get(data, 'getAllUsers', [])
@@ -56,6 +61,4 @@ export class Users {
   async deleteUserById(id: any) {
     return await deleteUserById(id)
   }
-
-  async updateUserInfo(data: { email: any; password: any; username: any }) {}
 }

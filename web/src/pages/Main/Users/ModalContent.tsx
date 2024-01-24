@@ -44,13 +44,17 @@ export default observer(
           label="登录邮箱"
           name="email"
           rules={[{ required: true, message: 'Please input your username!' }]}
+          hidden={modelStatus == 'edit'}
         >
           <Input />
         </Form.Item>
         <Form.Item<FieldType>
           label="密码"
           name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
+          rules={[
+            { required: true, message: 'Please input your password!' },
+            { min: 8, message: 'password 不少于8位' }
+          ]}
         >
           <Input.Password />
         </Form.Item>

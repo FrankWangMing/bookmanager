@@ -67,3 +67,21 @@ export const updateSupplier: any = (code: string, name: string) => {
     `
   })
 }
+
+export const deleteSupplier: any = (code: string, name: string) => {
+  console.log(code)
+
+  return client.mutate({
+    mutation: gql`
+      mutation DeleteSupplier {
+        deleteSupplier(data: { code: "${code}", name: "${name}" }) {
+          code
+          createdAt
+          id
+          name
+          updatedAt
+        }
+      }
+    `
+  })
+}

@@ -1,7 +1,12 @@
 import { makeAutoObservable } from 'mobx'
 import { login, LoginProps, userInfo } from '../../service/users'
 import { get } from 'lodash'
-import { createSupplier, supplierList, updateSupplier } from 'service/supplier'
+import {
+  createSupplier,
+  deleteSupplier,
+  supplierList,
+  updateSupplier
+} from 'service/supplier'
 import { RootViewModel } from 'model'
 
 export class Supplier {
@@ -35,5 +40,9 @@ export class Supplier {
 
     this.supplierList = get(data, 'data.getSupplier', [])
     return this.supplierList
+  }
+
+  async deleteSupplier(code: string, name: string) {
+    return await deleteSupplier(code, name)
   }
 }

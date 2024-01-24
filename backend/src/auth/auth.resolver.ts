@@ -6,10 +6,14 @@ import { LoginInput } from './dto/login.input'
 import { SignupInput } from './dto/signup.input'
 import { RefreshTokenInput } from './dto/refresh-token.input'
 import { User } from 'src/users/models/user.model'
+import { UsersService } from 'src/users/users.service'
 
 @Resolver(() => Auth)
 export class AuthResolver {
-  constructor(private readonly auth: AuthService) {}
+  constructor(
+    private readonly auth: AuthService,
+    private readonly users: UsersService
+  ) {}
 
   @Mutation(() => Auth)
   async signup(@Args('data') data: SignupInput) {
@@ -19,6 +23,12 @@ export class AuthResolver {
       accessToken,
       refreshToken
     }
+  }
+
+  @Mutation(() => User)
+  async update(@Args('data') data: SignupInput): Promise<User> {
+    data.email = data.email.toLowerCase()
+    return await this.users.updateUser(data.email, data.password, data.username)
   }
 
   @Mutation(() => Auth)

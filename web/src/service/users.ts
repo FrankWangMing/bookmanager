@@ -69,16 +69,16 @@ export const updateUser = (data: {
   const { email, password, username } = data
   return client.mutate({
     mutation: gql`
-      mutation {
-        signup(
+      mutation Update {
+        update(
           data: { email: "${email}", password: "${password}", username:  "${username}", }
         ) {
-          accessToken
-          refreshToken
-          user {
-            username
-            email
-          }
+          createdAt
+          email
+          id
+          role
+          updatedAt
+          username
         }
       }
     `

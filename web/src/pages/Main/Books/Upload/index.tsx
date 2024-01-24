@@ -7,9 +7,19 @@ import {
   Select,
   notification
 } from 'antd'
-import { entries, fromPairs, get, isNull, map, uniqueId } from 'lodash'
+import {
+  entries,
+  fromPairs,
+  get,
+  includes,
+  isNull,
+  keys,
+  map,
+  uniqueId,
+  values
+} from 'lodash'
 import { observer } from 'mobx-react-lite'
-import { useState } from 'react'
+import { Dispatch, useState } from 'react'
 import { read, utils } from 'xlsx'
 import { UploadOutlined } from '@ant-design/icons'
 import UploadTable from './UploadTable'
@@ -22,7 +32,7 @@ export interface President {
   作者: string
   出版社: string
   印刷时间: string
-  图书编号: string
+  书号: string
   定价: string
   库位: string
   库存: string
@@ -32,188 +42,224 @@ export interface President {
   读者对象: string
 }
 
-export default observer(() => {
-  const [tabItems, setTabItems] = useState<any>([])
-  const [booksdata, setBooksData] = useState<Map<string, any[]>>(new Map())
-  const [activeKey, setActiveKey] = useState<string>('')
-  const [supplierCode, setSupplierCode] = useState<string>(
-    viewmodel.supplierModel.supplierList[0]?.code
-  )
-  const [uploadLoading, setUploadLoading] = useState(false)
-  const onChange = (key: string) => {
-    console.log(key)
-    setActiveKey(key)
-  }
-  const createItem = (file: RcFile, data: President[]) => {
-    const newPanes = [...tabItems]
-    newPanes.push({
-      key: file.uid,
-      label: file.name,
-      closable: true,
-      children: (
-        <UploadTable
-          key={uniqueId()}
-          data={map(data, (i) => ({ ...i }))}
-        ></UploadTable>
-      )
-    })
-    setTabItems(newPanes)
-    setActiveKey(file.uid)
-    setBooksData(booksdata.set(file.uid, data))
-  }
-
-  const props: UploadProps = {
-    name: 'file',
-    showUploadList: false,
-    beforeUpload(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader()
-        reader.onload = (e) => {
-          if (e.target == null) return
-          const arrayBuffer = e.target.result
-          console.log(arrayBuffer)
-
-          if (isNull(arrayBuffer)) return
-
-          const wb = read(arrayBuffer)
-
-          /* generate array of presidents from the first worksheet */
-          const ws = wb.Sheets[wb.SheetNames[0]] // get the first worksheet
-
-          const data: President[] = utils.sheet_to_json<President>(ws, {
-            // header: 1
-          }) // generate objects
-          console.log(data)
-          console.log(file)
-          createItem(file, data)
-          //   setFileMap(fileMap.set(file.uid, createItem(file, data))) // 在这里可以执行其他操作，使用 arrayBuffer
-          //   console.log(Array.from(fileMap.values()))
-
-          //   setTabItems(Array.from(fileMap.values()))
-
-          // 如果有异步操作，确保在异步操作完成后调用 resolve
-          resolve(false)
-        }
-        reader.onerror = (error) => {
-          console.error('Error reading file:', error)
-          reject()
-        }
-        reader.readAsArrayBuffer(file)
+export default observer(
+  ({ setIsModalOpen }: { setIsModalOpen: Dispatch<boolean> }) => {
+    const [tabItems, setTabItems] = useState<any>([])
+    const [booksdata, setBooksData] = useState<Map<string, any[]>>(new Map())
+    const [activeKey, setActiveKey] = useState<string>('')
+    const [supplierCode, setSupplierCode] = useState<string>(
+      viewmodel.supplierModel.supplierList[0]?.code
+    )
+    const [uploadLoading, setUploadLoading] = useState(false)
+    const onChange = (key: string) => {
+      console.log(key)
+      setActiveKey(key)
+    }
+    const createItem = (file: RcFile, data: President[]) => {
+      const newPanes = [...tabItems]
+      newPanes.push({
+        key: file.uid,
+        label: file.name,
+        closable: true,
+        children: (
+          <UploadTable
+            key={uniqueId()}
+            data={map(data, (i) => ({ ...i }))}
+          ></UploadTable>
+        )
       })
-    },
-    onChange(info) {
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList)
-      }
-      if (info.file.status === 'done') {
-        console.log(info)
-        message.success(`${info.file.name} file uploaded successfully`)
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`)
+      setTabItems(newPanes)
+      setActiveKey(file.uid)
+      setBooksData(booksdata.set(file.uid, data))
+    }
+
+    const lllll = (data: President, idx: number) => {
+      return [
+        '书名',
+        '书号',
+        '出版社',
+        '定价',
+        '折扣',
+        '库存',
+        '开本',
+        '作者',
+        '印刷时间',
+        '中图分类',
+        '读者对象',
+        '库位'
+      ]
+        .map((i) => {
+          return { name: i, index: idx, status: includes(keys(data), i) }
+        })
+        .filter((i) => i.status == false)
+    }
+    const checkFile = (data: President[]) => {
+      return data.map((i, idx) => {
+        return {
+          ...i,
+          status: { ...lllll(i, idx) }
+        }
+      })
+    }
+
+    const props: UploadProps = {
+      name: 'file',
+      showUploadList: false,
+      beforeUpload(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader()
+          reader.onload = (e) => {
+            if (e.target == null) return
+            const arrayBuffer = e.target.result
+
+            if (isNull(arrayBuffer)) return
+
+            const wb = read(arrayBuffer)
+
+            const ws = wb.Sheets[wb.SheetNames[0]] // get the first worksheet
+
+            const data: President[] = utils.sheet_to_json<President>(ws, {
+              // header: 1
+            }) // generate objects
+            createItem(file, checkFile(data))
+            resolve(false)
+          }
+          reader.onerror = (error) => {
+            console.error('Error reading file:', error)
+            reject()
+          }
+          reader.readAsArrayBuffer(file)
+        })
+      },
+      onChange(info) {
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList)
+        }
+        if (info.file.status === 'done') {
+          console.log(info)
+          message.success(`${info.file.name} file uploaded successfully`)
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`)
+        }
       }
     }
-  }
-  /* the component state is an array of objects */
+    /* the component state is an array of objects */
 
-  /* Fetch and update the state once */
-  const getKey = (value: string) => {
-    return {
-      // 条码: 'j',
-      图书编号: 'bookNumber',
-      书名: 'name',
-      出版社: 'publish',
-      定价: 'price',
-      折扣: 'discount',
-      库存: 'stock',
-      开本: 'format',
-      作者: 'author',
-      印刷时间: 'printTime',
-      中图分类: 'classification',
-      读者对象: 'readership',
-      库位: 'address'
-    }[value]
-  }
-  const uploadBooks = () => {
-    setUploadLoading(true)
-    viewmodel.booksModel
-      .uploadManyBooks(
-        Array.from(booksdata.values()).map((i) => {
-          return i.map((_i) => {
-            return {
-              ...fromPairs(
-                entries(_i).map((i) => {
-                  return [getKey(i[0]), String(i[1])]
-                })
-              ),
-              supplierCode
-            }
-          })
-        })
-      )
-      .then((i) => {
-        console.log(i)
-        setTimeout(() => {
-          setUploadLoading(false)
-
-          if (get(i, 'data.CreateManyBook', 0) == 1) {
-            notification.success({
-              message: '上传成功',
-              description: `一共上传了${Array.from(booksdata.values()).reduce(
-                (pre, current) => {
-                  return (pre += current.length)
-                },
-                0
-              )}条数据`
-              // duration: 600
+    /* Fetch and update the state once */
+    const getKey = (value: string) => {
+      return {
+        // 条码: 'j',
+        书号: 'bookNumber',
+        书名: 'name',
+        出版社: 'publish',
+        定价: 'price',
+        折扣: 'discount',
+        库存: 'stock',
+        开本: 'format',
+        作者: 'author',
+        印刷时间: 'printTime',
+        中图分类: 'classification',
+        读者对象: 'readership',
+        库位: 'address'
+      }[value]
+    }
+    const uploadBooks = () => {
+      setUploadLoading(true)
+      viewmodel.booksModel
+        .uploadManyBooks(
+          Array.from(booksdata.values()).map((i) => {
+            return i.map((_i) => {
+              return {
+                ...fromPairs(
+                  entries(_i).map((i) => {
+                    return [getKey(i[0]), String(i[1])]
+                  })
+                ),
+                supplierCode
+              }
             })
-          }
-        }, 3000)
+          })
+        )
+        .then((i) => {
+          console.log(i)
+          setTimeout(() => {
+            setUploadLoading(false)
+            if (get(i, 'data.CreateManyBook', 0) == 1) {
+              notification.success({
+                message: '上传成功',
+                description: `一共上传了${Array.from(booksdata.values()).reduce(
+                  (pre, current) => {
+                    return (pre += current.length)
+                  },
+                  0
+                )}条数据`
+                // duration: 600
+              })
+              setIsModalOpen(false)
+            }
+          }, 3000)
+        })
+    }
+    const checkBooks = (books: Map<string, any[]>) => {
+      console.log(books)
+      let result = false
+      Array.from(books.values()).map((i) => {
+        console.log(i)
+        i.forEach((_i) => {
+          console.log(_i)
+          console.log(values(_i.status))
+          console.log(values(_i.status).length > 0)
+
+          if (values(_i.status).length > 0) result = true
+        })
       })
+      return result
+    }
+    return (
+      <div className="w-full">
+        <Tabs
+          tabBarExtraContent={{
+            left: (
+              <Upload {...props} className="mr-3 mb-1">
+                <Button className="tabs-extra-demo-button">选择文件</Button>
+              </Upload>
+            ),
+            right: (
+              <>
+                <span>供应商：</span>
+                <Select
+                  value={supplierCode}
+                  onChange={(value) => {
+                    console.log(value)
+                    setSupplierCode(value)
+                  }}
+                  style={{ width: 120 }}
+                >
+                  {viewmodel.supplierModel.supplierList.map((i: any) => {
+                    return <Select.Option key={i.code}>{i.name}</Select.Option>
+                  })}
+                </Select>
+                <Button
+                  icon={<UploadOutlined />}
+                  className="ml-2"
+                  onClick={() => {
+                    uploadBooks()
+                  }}
+                  disabled={booksdata.size == 0 || checkBooks(booksdata)}
+                  type="primary"
+                  loading={uploadLoading}
+                >
+                  一键上传
+                </Button>
+              </>
+            )
+          }}
+          activeKey={activeKey}
+          type="card"
+          items={tabItems}
+          onChange={onChange}
+        />
+      </div>
+    )
   }
-  return (
-    <div className="w-full">
-      <Tabs
-        tabBarExtraContent={{
-          left: (
-            <Upload {...props} className="mr-3 mb-1">
-              <Button className="tabs-extra-demo-button">选择文件</Button>
-            </Upload>
-          ),
-          right: (
-            <>
-              <span>供应商：</span>
-              <Select
-                value={supplierCode}
-                onChange={(value) => {
-                  console.log(value)
-                  setSupplierCode(value)
-                }}
-                style={{ width: 120 }}
-              >
-                {viewmodel.supplierModel.supplierList.map((i: any) => {
-                  return <Select.Option key={i.code}>{i.name}</Select.Option>
-                })}
-              </Select>
-              <Button
-                icon={<UploadOutlined />}
-                className="ml-2"
-                onClick={() => {
-                  uploadBooks()
-                }}
-                disabled={booksdata.size == 0}
-                type="primary"
-                loading={uploadLoading}
-              >
-                一键上传
-              </Button>
-            </>
-          )
-        }}
-        activeKey={activeKey}
-        type="card"
-        items={tabItems}
-        onChange={onChange}
-      />
-    </div>
-  )
-})
+)
