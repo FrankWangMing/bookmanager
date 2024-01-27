@@ -1,6 +1,1 @@
-
-Tag=1.2
-
-docker-compose build
-docker tag  fronted-bookmanager:latest  console.frankwm.cn/travelgo/fe:$Tag
-docker push console.frankwm.cn/travelgo/fe:$Tag
+docker run -p 80:80 -it -d 120.26.170.100:8881/bookmanager/web:latest
