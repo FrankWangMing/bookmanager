@@ -16,7 +16,7 @@ services:
       - connect
 
   postgres:
-    image: postgres
+    image: postgres:15
     container_name: postgres
     restart: always
     ports:
