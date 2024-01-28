@@ -28,6 +28,7 @@ import {
   MenuProps,
   Tag
 } from 'antd'
+import { get } from 'lodash'
 const { Header, Sider, Content } = Layout
 
 export const Main = observer(() => {
@@ -47,18 +48,21 @@ export const Main = observer(() => {
   useEffect(() => {
     setSelectedKeys(location.pathname)
   }, [location.pathname])
-
+  const [username,setUserName]=useState(get(viewmodel,"userModel.userInfo.username",""))
+  useEffect(()=>{
+    setUserName(get(viewmodel,"userModel.userInfo.username",""))
+  },[viewmodel.userModel.update])
   const items: MenuProps['items'] = [
-    {
-      key: '3',
-      label: '修改密码',
-      icon: <EditOutlined />,
-      onClick: (r) => {
-        if (r.key == '3') {
-          console.log('DD')
-        }
-      }
-    },
+    // {
+    //   key: '3',
+    //   label: '修改密码',
+    //   icon: <EditOutlined />,
+    //   onClick: (r) => {
+    //     if (r.key == '3') {
+    //       console.log('DD')
+    //     }
+    //   }
+    // },
     {
       key: '4',
       danger: true,
@@ -134,7 +138,7 @@ export const Main = observer(() => {
               icon: <LoginOutlined />
             }
           ].filter((i) => {
-            if (viewmodel.userModel.userInfo?.role == 'ADMIN') {
+            if (viewmodel.userModel.isAdmin) {
               return (
                 [
                   '/dashboard',
@@ -174,10 +178,10 @@ export const Main = observer(() => {
             <Dropdown menu={{ items }}>
               <a onClick={(e) => e.preventDefault()}>
                 <Space>
-                  您好,{viewmodel.userModel.userInfo?.username}
+                  您好,{username}
                   {
                     <Tag>
-                      {viewmodel.userModel.userInfo?.role == 'ADMIN'
+                      {viewmodel.userModel.isAdmin
                         ? '超级管理员'
                         : '普通'}
                     </Tag>

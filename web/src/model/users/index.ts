@@ -14,11 +14,13 @@ type UserInfo = {
   email: string
   username: string
   password: string
+  role:"ADMIN"|"a"
 }
 export class Users {
   userInfo: UserInfo | null = null
   allUsers: any[] = []
   root: RootViewModel
+  update:number = 1
   constructor(root: RootViewModel) {
     makeAutoObservable(this)
     this.fetchUserInfo()
@@ -26,11 +28,19 @@ export class Users {
     this.root = root
   }
 
+  get isAdmin():boolean{
+    if(this.userInfo){
+      return this.userInfo.role=="ADMIN"
+    }
+    return false
+  }
+
   async login(params: LoginProps) {
     const { data } = await login(params)
     if (data) {
       localStorage.setItem('token', data.login.accessToken)
-      this.root.init()
+      this.fetchUserInfo()
+      this.update++
     }
     return data
   }

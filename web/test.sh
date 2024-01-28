@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # 定义保存浮点数的文件路径
@@ -18,17 +17,8 @@ increment=0.1
 # 使用 awk 进行浮点数加法
 counter=$(awk -v c="$counter" -v inc="$increment" 'BEGIN {printf "%.1f\n", c + inc}')
 
+# 打印自增后的值
+echo "Current value: $counter"
 
 # 保存浮点数到文件
 echo "$counter" > "$counter_file"
-
-docker login 120.26.170.100:8881
-
-docker build -t 120.26.170.100:8881/bookmanager/web:$counter -f Dockerfile . 
-
-docker push 120.26.170.100:8881/bookmanager/web:$counter
-
-echo "sudo docker run -p 80:80 --name book-web -it -d 120.26.170.100:8881/bookmanager/web:$counter"
-
-
-

@@ -1,1 +1,0 @@
-docker run -p 80:80 -it -d 120.26.170.100:8881/bookmanager/web:latest
