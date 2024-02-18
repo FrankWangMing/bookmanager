@@ -1,0 +1,190 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Auth {
+  """JWT access token"""
+  accessToken: JWT!
+
+  """JWT refresh token"""
+  refreshToken: JWT!
+  user: User!
+}
+
+type Book {
+  address: String
+  author: String
+  bookNumber: String!
+  bookNumber_supplierCode: ID!
+  classification: String
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  discount: String
+  format: String
+  id: ID!
+  name: String!
+  price: String!
+  printTime: String
+  publish: String
+  readership: String
+  stock: String
+  supplier: Supplier!
+  supplierCode: String!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+}
+
+input ChangePasswordInput {
+  newPassword: String!
+  oldPassword: String!
+}
+
+input CreateBookInput {
+  address: String
+  author: String
+  bookNumber: String!
+  classification: String
+  discount: String
+  format: String
+  name: String!
+  price: String!
+  printTime: String
+  publish: String
+  readership: String
+  stock: String
+  supplierCode: String!
+}
+
+input CreateSupplierInput {
+  code: String!
+  name: String!
+}
+
+type DashBoardBefore {
+  before: Int!
+  num: Int!
+}
+
+type DashBoardData {
+  bookType: DashBoardBefore!
+  data: [Book!]!
+  quantity: DashBoardBefore!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""
+A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction.
+"""
+scalar JWT
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  CreateManyBook(data: [CreateBookInput!]!): Int!
+  changePassword(data: ChangePasswordInput!): User!
+  createBook(data: CreateBookInput!): Book!
+  createSupplier(data: CreateSupplierInput!): Supplier!
+  deleteSupplier(data: CreateSupplierInput!): Supplier!
+  deleteUserById(email: String!): User!
+  login(data: LoginInput!): Auth!
+  refreshToken(token: JWT!): Token!
+  signup(data: SignupInput!): Auth!
+  update(data: SignupInput!): User!
+  updateSupplier(data: CreateSupplierInput!): Supplier!
+}
+
+type Query {
+  book(bookId: String!): Book!
+  dashBoard: DashBoardData!
+  getAllUsers: [User!]!
+  getBooks: [Book!]!
+  getBooksBySearch(data: SearchBookInput!): SearchBookResult!
+  getSupplier: [Supplier!]!
+  hello(name: String!): String!
+  helloWorld: String!
+  me: User!
+}
+
+"""User role"""
+enum Role {
+  ADMIN
+  USER
+}
+
+input SearchBookInput {
+  address: String
+  author: String
+  bookNumber: String
+  bookNumbers: [String!]!
+  classification: String
+  current: Int!
+  discount: String
+  format: String
+  name: String
+  pageSize: Int!
+  price: String
+  printTime: String
+  publish: String
+  readership: String
+  stock: String
+  supplierCode: String
+}
+
+type SearchBookResult {
+  data: [Book!]!
+  page: Int!
+  total: Int!
+}
+
+input SignupInput {
+  email: String!
+  password: String!
+  username: String!
+}
+
+type Subscription {
+  bookCreated: Book!
+  supplierCreated: Supplier!
+}
+
+type Supplier {
+  books: [Book!]
+  code: String!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+}
+
+type Token {
+  """JWT access token"""
+  accessToken: JWT!
+
+  """JWT refresh token"""
+  refreshToken: JWT!
+}
+
+type User {
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  role: Role!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  username: String!
+}

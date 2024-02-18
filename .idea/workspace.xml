@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b13af5f2-46c3-4680-be57-37431aa270dd" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/backend/.eslintrc" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.eslintrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/graphql/books.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/graphql/books.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/prisma/dbml/schema.dbml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/prisma/migrations/20240127224907_/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/prisma/migrations/migration_lock.toml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/backend/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/books/books.resolver.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/books/books.resolver.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/books/dto/createBook.input.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/books/dto/createBook.input.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/books/models/book.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/books/models/book.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/schema.graphql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/backend/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/.yarn/install-state.gz" beforeDir="false" afterPath="$PROJECT_DIR$/web/.yarn/install-state.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/model/Books.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/model/Books.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/pages/Main/Books/Upload/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/pages/Main/Books/Upload/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/pages/Main/Books/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/pages/Main/Books/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/service/books.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/service/books.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/service/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/service/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/web/yarn.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myAllFileTypesSelected" value="true" />
+    <option name="mySelectedFileTypes">
+      <set />
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2bQi8LokzJGmuzmFPdk3lMVqhCk" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "ignore_missing_gitignore": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "prettierjs.PrettierConfiguration.Package": "/Users/wangming/Documents/GitHub/bookmanager/backend/node_modules/prettier",
+    "rearrange.code.on.save": "true",
+    "settings.editor.selected.configurable": "settings.javascript.prettier",
+    "ts.external.directory.path": "/Users/wangming/Documents/GitHub/bookmanager/backend/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-c44b541a36ca-JavaScript-WS-233.13135.92" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="b13af5f2-46c3-4680-be57-37431aa270dd" name="更改" comment="" />
+      <created>1706153543293</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1706153543293</updated>
+      <workItem from="1706153544685" duration="1033000" />
+      <workItem from="1706154817420" duration="1961000" />
+      <workItem from="1708225313105" duration="16554000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
