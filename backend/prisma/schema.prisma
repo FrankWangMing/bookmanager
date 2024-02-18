@@ -33,22 +33,24 @@ model Supplier {
 
 model Book {
   id             Int      @default(autoincrement())
-  bookNumber     String   @id @unique //图书编号 
+  bookNumber     String // 图书编号
   supplier       Supplier @relation(fields: [supplierCode], references: [code])
   supplierCode   String
-  name           String //书名
-  publish        String //出版社
-  discount       String //折扣
-  stock          String //库存
-  price          String //价格
-  author         String //作者
-  printTime      String //印刷时间
-  readership     String //读者对象
-  classification String //中图分类
-  address        String //库位
-  format         String //开本
+  price          String // 价格
+  name           String // 书名
+  publish        String? // 出版社
+  discount       String? // 折扣
+  stock          String? // 库存
+  author         String? // 作者
+  printTime      String? // 印刷时间
+  readership     String? // 读者对象
+  classification String? // 中图分类
+  address        String? // 库位
+  format         String? // 开本
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+
+  @@id(fields: [bookNumber, supplierCode], name: "bookNumber_supplierCode", map: "bookNumber_supplierCode")
 }
 
 enum Role {

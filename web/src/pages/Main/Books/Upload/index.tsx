@@ -12,6 +12,7 @@ import {
   fromPairs,
   get,
   includes,
+  isEqual,
   isNull,
   keys,
   map,
@@ -43,7 +44,13 @@ export interface President {
 }
 
 export default observer(
-  ({ setIsModalOpen }: { setIsModalOpen: Dispatch<boolean> }) => {
+  ({
+    setIsModalOpen,
+    handleOk
+  }: {
+    handleOk: any
+    setIsModalOpen: Dispatch<boolean>
+  }) => {
     const [tabItems, setTabItems] = useState<any>([])
     const [booksdata, setBooksData] = useState<Map<string, any[]>>(new Map())
     const [activeKey, setActiveKey] = useState<string>('')
@@ -74,20 +81,7 @@ export default observer(
     }
 
     const lllll = (data: President, idx: number) => {
-      return [
-        '书名',
-        '书号',
-        '出版社',
-        '定价',
-        '折扣',
-        '库存',
-        '开本',
-        '作者',
-        '印刷时间',
-        '中图分类',
-        '读者对象',
-        '库位'
-      ]
+      return ['书名', '书号', '出版社', '定价']
         .map((i) => {
           return { name: i, index: idx, status: includes(keys(data), i) }
         })
@@ -171,9 +165,11 @@ export default observer(
             return i.map((_i) => {
               return {
                 ...fromPairs(
-                  entries(_i).map((i) => {
-                    return [getKey(i[0]), String(i[1])]
-                  })
+                  entries(_i)
+                    .filter((i) => i[0] !== 'status')
+                    .map((i) => {
+                      return [getKey(i[0]), String(i[1])]
+                    })
                 ),
                 supplierCode
               }
@@ -196,20 +192,20 @@ export default observer(
                 // duration: 600
               })
               setIsModalOpen(false)
+              handleOk()
             }
           }, 3000)
         })
     }
+    const clearBooks = () => {
+      setTabItems([])
+      setBooksData(new Map())
+    }
     const checkBooks = (books: Map<string, any[]>) => {
-      console.log(books)
       let result = false
       Array.from(books.values()).map((i) => {
         console.log(i)
         i.forEach((_i) => {
-          console.log(_i)
-          console.log(values(_i.status))
-          console.log(values(_i.status).length > 0)
-
           if (values(_i.status).length > 0) result = true
         })
       })
@@ -220,12 +216,23 @@ export default observer(
         <Tabs
           tabBarExtraContent={{
             left: (
-              <Upload {...props} className="mr-3 mb-1">
+              <Upload {...props} className="mb-1 mr-3">
+                {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
                 <Button className="tabs-extra-demo-button">选择文件</Button>
               </Upload>
             ),
             right: (
               <>
+                <Button
+                  className="mr-2"
+                  onClick={() => {
+                    clearBooks()
+                  }}
+                  disabled={booksdata.size == 0 || checkBooks(booksdata)}
+                  danger
+                >
+                  一键清空
+                </Button>
                 <span>供应商：</span>
                 <Select
                   value={supplierCode}

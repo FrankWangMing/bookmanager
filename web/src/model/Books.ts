@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import { get } from 'lodash'
+import { concat, get, reduce } from 'lodash'
 import {
   bookList,
   fetchDashBoardBookList,
@@ -12,6 +12,7 @@ import { RootViewModel } from 'model'
 export class Books {
   public booksList: any = []
   root: RootViewModel
+
   constructor(root: RootViewModel) {
     makeAutoObservable(this)
     this.root = root
@@ -26,6 +27,7 @@ export class Books {
   async fetchDashBoardBookList() {
     return get(await fetchDashBoardBookList(), 'data.dashBoard', {})
   }
+
   async getBooksBySearch(params: any) {
     const data = await getBooksBySearch(params)
     return await get(data, 'data.getBooksBySearch', {})
@@ -34,7 +36,19 @@ export class Books {
   async upload(data: any) {
     return await uploadBooks(data)
   }
+
   async uploadManyBooks(data: any) {
-    return await uploadManyBooks(data)
+    return await uploadManyBooks(
+      reduce(
+        data,
+        (pre, item) => {
+          console.log(item)
+          pre = pre.concat(item)
+          console.log(pre)
+          return pre
+        },
+        []
+      )
+    )
   }
 }

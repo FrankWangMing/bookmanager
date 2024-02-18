@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client'
 import { client } from './index'
-import { random } from 'lodash'
 
 export const bookList: any = () => {
   return client.query({
@@ -14,7 +13,6 @@ export const bookList: any = () => {
           createdAt
           discount
           format
-          id
           name
           price
           printTime
@@ -175,6 +173,7 @@ export const uploadBooks: any = (data: any) => {
 }
 
 export const uploadManyBooks: any = (data: any) => {
+  console.log(data)
   return client.mutate({
     mutation: gql`
       mutation CreateManyBook($data: [CreateBookInput!]!) {
@@ -182,7 +181,7 @@ export const uploadManyBooks: any = (data: any) => {
       }
     `,
     variables: {
-      data: data[0].map(
+      data: data.map(
         (i: {
           address: any
           author: any
@@ -198,18 +197,18 @@ export const uploadManyBooks: any = (data: any) => {
           stock: any
           supplierCode: any
         }) => ({
-          address: i.address,
-          author: i.author,
+          address: i.address || '',
+          author: i.author || '',
           bookNumber: i.bookNumber,
-          classification: i.classification,
-          discount: i.discount,
-          format: i.format,
+          classification: i.classification || '',
+          discount: i.discount || '',
+          format: i.format || '',
           name: i.name,
           price: i.price,
-          printTime: i.printTime,
-          publish: i.publish,
-          readership: i.readership,
-          stock: i.stock,
+          printTime: i.printTime || '',
+          publish: i.publish || '',
+          readership: i.readership || '',
+          stock: i.stock || '',
           supplierCode: i.supplierCode
         })
       )

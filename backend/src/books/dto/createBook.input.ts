@@ -14,37 +14,38 @@ export class CreateBookInput {
 
   @Field()
   @IsNotEmpty()
-  name: string
-
-  @Field()
-  publish: string
-
-  @Field()
-  discount: string
-
-  @Field()
-  stock: string
-
-  @Field()
   price: string
 
   @Field()
-  author: string
+  @IsNotEmpty()
+  name: string
 
   @Field()
-  printTime: string
+  publish?: string
 
   @Field()
-  readership: string
+  discount?: string
 
   @Field()
-  classification: string
+  stock?: string
 
   @Field()
-  address: string
+  author?: string
 
   @Field()
-  format: string
+  printTime?: string
+
+  @Field()
+  readership?: string
+
+  @Field()
+  classification?: string
+
+  @Field()
+  address?: string
+
+  @Field()
+  format?: string
 }
 
 @InputType()

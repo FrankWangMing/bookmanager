@@ -71,15 +71,14 @@ const columns: ProColumns<DataType>[] = [
     title: '书号',
     dataIndex: 'bookNumber',
     copyable: true,
-    valueType: 'text',
-    sorter: true
+    valueType: 'text'
   },
   {
     title: '书名',
     key: 'name',
     dataIndex: 'name',
     copyable: true,
-    ellipsis: true,
+    ellipsis: false,
     valueType: 'text'
   },
 
@@ -87,15 +86,14 @@ const columns: ProColumns<DataType>[] = [
     title: '出版社',
     key: 'publish',
     dataIndex: 'publish',
-    valueType: 'text',
-    sorter: true
+    valueType: 'text'
   },
   {
     title: '定价',
     key: 'price',
     dataIndex: 'price',
     valueType: 'text',
-    sorter: true,
+    // sorter: true,
     hideInSearch: true
   },
   {
@@ -103,7 +101,7 @@ const columns: ProColumns<DataType>[] = [
     key: 'discount',
     dataIndex: 'discount',
     valueType: 'text',
-    sorter: true,
+    // sorter: true,
     hideInSearch: true
   },
   {
@@ -111,7 +109,7 @@ const columns: ProColumns<DataType>[] = [
     key: 'stock',
     dataIndex: 'stock',
     valueType: 'text',
-    sorter: true,
+    // sorter: true,
     hideInSearch: true
   },
   {
@@ -119,7 +117,6 @@ const columns: ProColumns<DataType>[] = [
     key: 'author',
     dataIndex: 'author',
     valueType: 'text',
-    sorter: true,
     hideInSearch: true
   },
   {
@@ -127,7 +124,6 @@ const columns: ProColumns<DataType>[] = [
     key: 'readership',
     dataIndex: 'readership',
     valueType: 'text',
-    sorter: true,
     hideInSearch: true
   },
   {
@@ -135,7 +131,6 @@ const columns: ProColumns<DataType>[] = [
     key: 'address',
     dataIndex: 'address',
     valueType: 'text',
-    sorter: true,
     hideInSearch: true
   },
   {
@@ -149,7 +144,6 @@ const columns: ProColumns<DataType>[] = [
     key: 'classification',
     dataIndex: 'classification',
     valueType: 'text',
-    sorter: true,
     hideInSearch: true
   },
   {
@@ -157,7 +151,6 @@ const columns: ProColumns<DataType>[] = [
     key: 'supplierCode',
     dataIndex: 'supplierCode',
     valueType: 'select',
-    sorter: true,
     valueEnum: () => {
       return viewmodel.supplierModel.supplierList.reduce(
         (pre, current: any) => {
@@ -286,7 +279,7 @@ export const Books = observer(() => {
               bookNumbers: SearchBookNumber
             })
             .then((r) => {
-              let data = r.data
+              const data = r.data
               setPres(data)
               setSearchBookNumber([])
               return {
@@ -435,7 +428,7 @@ export const Books = observer(() => {
         size={'large'}
         width={1800}
       >
-        <Upload setIsModalOpen={setIsModalOpen}></Upload>
+        <Upload handleOk={handleOk} setIsModalOpen={setIsModalOpen}></Upload>
       </Drawer>
     </>
   )

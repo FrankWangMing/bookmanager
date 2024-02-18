@@ -22,6 +22,7 @@ import {
 import { BookIdArgs } from './dto/book-id.args'
 
 const pubSub = new PubSub()
+
 @Resolver(() => Book)
 export class BooksResolver {
   constructor(private prisma: PrismaService) {}
@@ -80,7 +81,10 @@ export class BooksResolver {
     return this.prisma.book
       .findUnique({
         where: {
-          bookNumber: data.bookNumber
+          bookNumber_supplierCode: {
+            supplierCode: data.supplierCode,
+            bookNumber: data.bookNumber
+          }
         }
       })
       .then((r) => {
@@ -101,7 +105,10 @@ export class BooksResolver {
         } else {
           return this.prisma.book.update({
             where: {
-              bookNumber: data.bookNumber
+              bookNumber_supplierCode: {
+                supplierCode: data.supplierCode,
+                bookNumber: data.bookNumber
+              }
             },
             data
           })
@@ -115,42 +122,47 @@ export class BooksResolver {
     @Args({ name: 'data', type: () => [CreateBookInput] })
     data: [CreateBookInput]
   ) {
-    data.map(async (i) => {
-      await this.prisma.book.upsert({
-        where: {
-          bookNumber: i.bookNumber
-        },
-        create: {
-          supplierCode: String(i.supplierCode),
-          bookNumber: String(i.bookNumber),
-          name: String(i.name),
-          publish: String(i.publish),
-          discount: String(i.discount),
-          stock: String(i.stock),
-          price: String(i.price),
-          author: String(i.author),
-          printTime: String(i.printTime),
-          readership: String(i.readership),
-          classification: String(i.classification),
-          address: String(i.address),
-          format: String(i.format)
-        },
-        update: {
-          supplierCode: String(i.supplierCode),
-          name: String(i.name),
-          publish: String(i.publish),
-          discount: String(i.discount),
-          stock: String(i.stock),
-          price: String(i.price),
-          author: String(i.author),
-          printTime: String(i.printTime),
-          readership: String(i.readership),
-          classification: String(i.classification),
-          address: String(i.address),
-          format: String(i.format)
-        }
+    Promise.all(
+      data.map(async (i) => {
+        console.log(i)
+        return this.prisma.book.upsert({
+          where: {
+            bookNumber_supplierCode: {
+              supplierCode: i.supplierCode,
+              bookNumber: i.bookNumber
+            }
+          },
+          create: {
+            supplierCode: String(i.supplierCode),
+            bookNumber: String(i.bookNumber),
+            name: String(i.name),
+            publish: String(i.publish),
+            discount: String(i.discount),
+            stock: String(i.stock),
+            price: String(i.price),
+            author: String(i.author),
+            printTime: String(i.printTime),
+            readership: String(i.readership),
+            classification: String(i.classification),
+            address: String(i.address),
+            format: String(i.format)
+          },
+          update: {
+            name: String(i.name),
+            publish: String(i.publish),
+            discount: String(i.discount),
+            stock: String(i.stock),
+            price: String(i.price),
+            author: String(i.author),
+            printTime: String(i.printTime),
+            readership: String(i.readership),
+            classification: String(i.classification),
+            address: String(i.address),
+            format: String(i.format)
+          }
+        })
       })
-    })
+    )
     return 1
     // return this.prisma.book.
     // const res = await this.prisma.book.createMany({
@@ -162,7 +174,7 @@ export class BooksResolver {
     // await pubSub.publish('bookCreated', { postCreated: newBook })
   }
 
-  @UseGuards(GqlAuthGuard)
+  // @UseGuards(GqlAuthGuard)
   @Query(() => [Book])
   async getBooks() {
     return (await this.prisma.book.findMany()).sort((a, b) => {
@@ -176,7 +188,7 @@ export class BooksResolver {
     let result = []
     let count = 0
     if (data.bookNumbers.length == 0) {
-      result = await (
+      result = (
         await this.prisma.book.findMany({
           where: {
             name: {
@@ -209,7 +221,7 @@ export class BooksResolver {
         }
       })
     } else {
-      result = await (
+      result = (
         await this.prisma.book.findMany({
           where: {
             name: {
@@ -253,7 +265,7 @@ export class BooksResolver {
   @UseGuards(GqlAuthGuard)
   @Query(() => Book)
   async book(@Args() id: BookIdArgs) {
-    return this.prisma.book.findUnique({ where: { bookNumber: id.bookId } })
+    return this.prisma.book.findFirst({ where: { bookNumber: id.bookId } })
   }
 
   @ResolveField('supplier', () => Supplier)
