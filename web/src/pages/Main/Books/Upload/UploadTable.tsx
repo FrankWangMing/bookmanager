@@ -34,7 +34,14 @@ export default observer(({ data }: { data: DataType[] }) => {
       <Column title="开本" dataIndex="开本" key={uniqueId()} />
       <Column title="作者" dataIndex="作者" key={uniqueId()} />
       <Column title="中图分类" dataIndex="中图分类" key={uniqueId()} />
-      <Column title="印刷时间" dataIndex="印刷时间" key={uniqueId()} />
+      <Column
+        title="印刷时间"
+        dataIndex="印刷时间"
+        render={(i: Date) => {
+          return <div>{i.toISOString().slice(0, 10)}</div>
+        }}
+        key={uniqueId()}
+      />
       <Column title="读者对象" dataIndex="读者对象" key={uniqueId()} />
       <Column
         title="状态"

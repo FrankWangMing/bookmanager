@@ -6,11 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="b13af5f2-46c3-4680-be57-37431aa270dd" name="更改" comment="fixbug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/web/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/counter.txt" beforeDir="false" afterPath="$PROJECT_DIR$/web/counter.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/service/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/service/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/prisma/dbml/schema.dbml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/prisma/dbml/schema.dbml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deploy/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/deploy/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/pages/Main/Books/Upload/UploadTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/pages/Main/Books/Upload/UploadTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/pages/Main/Books/Upload/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/pages/Main/Books/Upload/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +78,7 @@
       <workItem from="1706153544685" duration="1033000" />
       <workItem from="1706154817420" duration="1961000" />
       <workItem from="1708225313105" duration="16685000" />
-      <workItem from="1708309462795" duration="6504000" />
+      <workItem from="1708309462795" duration="10856000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />

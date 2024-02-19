@@ -32,7 +32,7 @@ export interface President {
   书名: string
   作者: string
   出版社: string
-  印刷时间: string
+  印刷时间: any
   书号: string
   定价: string
   库位: string
@@ -85,10 +85,12 @@ export default observer(
         .map((i) => {
           return { name: i, index: idx, status: includes(keys(data), i) }
         })
-        .filter((i) => i.status == false)
+        .filter((i) => !i.status)
     }
     const checkFile = (data: President[]) => {
+      console.log('data', data)
       return data.map((i, idx) => {
+        console.log(i)
         return {
           ...i,
           status: { ...lllll(i, idx) }
@@ -108,8 +110,8 @@ export default observer(
 
             if (isNull(arrayBuffer)) return
 
-            const wb = read(arrayBuffer)
-
+            const wb = read(arrayBuffer, { cellDates: true })
+            console.log(wb)
             const ws = wb.Sheets[wb.SheetNames[0]] // get the first worksheet
 
             const data: President[] = utils.sheet_to_json<President>(ws, {
@@ -119,7 +121,6 @@ export default observer(
             resolve(false)
           }
           reader.onerror = (error) => {
-            console.error('Error reading file:', error)
             reject()
           }
           reader.readAsArrayBuffer(file)

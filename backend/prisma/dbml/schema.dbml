@@ -26,11 +26,11 @@ Table Book {
   bookNumber String [not null]
   supplier Supplier [not null]
   supplierCode String [not null]
+  price String [not null]
   name String [not null]
   publish String
   discount String
   stock String
-  price String [not null]
   author String
   printTime String
   readership String
