@@ -1,11 +1,9 @@
 version: '3.8'
 services:
   bookmanager:
+    image: 120.26.170.100:8882/bookmanager/backend:latest
     platform: linux/amd64
     container_name: bookmanager
-    build:
-      context: .
-      dockerfile: Dockerfile
     ports:
       - '3000:3000'
     depends_on:

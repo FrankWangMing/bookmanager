@@ -6,15 +6,16 @@ WORKDIR /app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package.json ./
 COPY yarn.lock ./
+COPY .yarnrc.yml ./
 COPY prisma ./prisma/
-
+RUN yarn set version 4.1.0
 # Install app dependencies
 RUN npm config set registry https://registry.npm.taobao.org/
 RUN yarn cache clean
 RUN yarn
 
 COPY . .
-
+RUN yarn set version 4.1.0
 RUN yarn run build
 
 FROM node:alpine

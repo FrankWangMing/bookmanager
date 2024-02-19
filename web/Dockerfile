@@ -8,10 +8,15 @@ WORKDIR /app
 COPY package.json ./
 
 COPY yarn.lock ./
+COPY .yarnrc.yml ./
 
 # COPY nginx ./
 
+
 # Install app dependencies
+
+RUN yarn set version 4.1.0
+
 RUN npm config set registry https://registry.npm.taobao.org/
 
 RUN yarn cache clean
@@ -20,6 +25,8 @@ RUN yarn install
 
 
 COPY . .
+
+RUN yarn set version 4.1.0
 
 RUN yarn build
 
