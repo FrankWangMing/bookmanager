@@ -1,7 +1,7 @@
 import React from 'react'
 import { Space, Table, TableProps, Tag } from 'antd'
 import { observer } from 'mobx-react-lite'
-import { uniqueId, valuesIn } from 'lodash'
+import { isUndefined, uniqueId, valuesIn } from 'lodash'
 import { CheckCircleOutlined } from '@ant-design/icons'
 
 const { Column, ColumnGroup } = Table
@@ -38,7 +38,11 @@ export default observer(({ data }: { data: DataType[] }) => {
         title="印刷时间"
         dataIndex="印刷时间"
         render={(i: Date) => {
-          return <div>{i.toISOString().slice(0, 10)}</div>
+          if (!isUndefined(i)) {
+            return <div>{new Date(i).toISOString().slice(0, 10)}</div>
+          } else {
+            return ''
+          }
         }}
         key={uniqueId()}
       />
