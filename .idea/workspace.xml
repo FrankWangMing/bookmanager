@@ -4,14 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b13af5f2-46c3-4680-be57-37431aa270dd" name="更改" comment="1">
+    <list default="true" id="b13af5f2-46c3-4680-be57-37431aa270dd" name="更改" comment="fixbug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/model/Books.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/model/Books.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/pages/Main/Books/Upload/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/pages/Main/Books/Upload/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/pages/Main/Books/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/pages/Main/Books/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/pages/Main/Supplier/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/pages/Main/Supplier/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/service/books.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/service/books.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/service/users.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/service/users.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/web/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/web/build.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/counter.txt" beforeDir="false" afterPath="$PROJECT_DIR$/web/counter.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +76,7 @@
       <workItem from="1706153544685" duration="1033000" />
       <workItem from="1706154817420" duration="1961000" />
       <workItem from="1708225313105" duration="16685000" />
-      <workItem from="1708309462795" duration="1713000" />
+      <workItem from="1708309462795" duration="3192000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -88,7 +86,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708269286200</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fixbug">
+      <option name="closed" value="true" />
+      <created>1708311470381</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1708311470381</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -96,6 +102,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1" />
-    <option name="LAST_COMMIT_MESSAGE" value="1" />
+    <MESSAGE value="fixbug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixbug" />
   </component>
 </project>

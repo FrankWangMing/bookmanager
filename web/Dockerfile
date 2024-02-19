@@ -1,4 +1,4 @@
-FROM node:alpine AS builder
+FROM node AS builder
 
 
 # Create app directory
@@ -16,7 +16,7 @@ RUN npm config set registry https://registry.npm.taobao.org/
 
 RUN yarn cache clean
 
-RUN yarn
+RUN yarn install
 
 
 COPY . .
@@ -42,7 +42,7 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 80
 
 
- 
+
 # FROM hub.c.163.com/library/nginx:latest
 
 # COPY dist /usr/share/nginx/html

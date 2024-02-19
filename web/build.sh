@@ -22,13 +22,13 @@ counter=$(awk -v c="$counter" -v inc="$increment" 'BEGIN {printf "%.1f\n", c + i
 # 保存浮点数到文件
 echo "$counter" > "$counter_file"
 
-docker login 120.26.170.100:8881
+docker login 120.26.170.100:8882
 
-docker build -t 120.26.170.100:8881/bookmanager/web:$counter -f Dockerfile . 
+docker build -t 120.26.170.100:8882/bookmanager/web:$counter -f Dockerfile .
 
-docker push 120.26.170.100:8881/bookmanager/web:$counter
+docker push 120.26.170.100:8882/bookmanager/web:$counter
 
-echo "sudo docker run -p 80:80 --name book-web -it -d 120.26.170.100:8881/bookmanager/web:$counter"
+echo "sudo docker run -p 80:80 --name book-web -it -d 120.26.170.100:8882/bookmanager/web:$counter"
 
 
 
