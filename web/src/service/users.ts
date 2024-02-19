@@ -31,7 +31,8 @@ export const userInfo = () => {
           role
         }
       }
-    `
+    `,
+    fetchPolicy: 'network-only'
   })
 }
 

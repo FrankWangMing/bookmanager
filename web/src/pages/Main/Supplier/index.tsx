@@ -40,7 +40,8 @@ export const getChineseKey = (value: string) => {
     printTime: '印刷时间',
     classification: '中图分类',
     readership: '读者对象',
-    address: '库位'
+    address: '库位',
+    supplierCode: '供应商'
   }[value]
 }
 export default observer(() => {
@@ -120,9 +121,9 @@ export default observer(() => {
 
   return (
     <div className="max-h-full">
-      <div className="m-3 h-18 items-center flex">
+      <div className="h-18 m-3 flex items-center">
         <Search
-          className="flex-1 w-full"
+          className="w-full flex-1"
           placeholder="输入供应商名称或供应商代码"
           allowClear
           enterButton="搜索"
@@ -189,7 +190,7 @@ export default observer(() => {
                   }}
                 >
                   <DeleteOutlined
-                    className=" hover:bg-gray-400 p-2 rounded-xl"
+                    className=" rounded-xl p-2 hover:bg-gray-400"
                     onClick={(event) => {
                       event.stopPropagation()
                     }}
@@ -197,7 +198,7 @@ export default observer(() => {
                 </Popconfirm>
 
                 <EditOutlined
-                  className=" hover:bg-gray-400 p-2 rounded-xl"
+                  className=" rounded-xl p-2 hover:bg-gray-400"
                   onClick={(event) => {
                     editSupplier(i)
                     event.stopPropagation()

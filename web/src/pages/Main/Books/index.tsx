@@ -172,7 +172,9 @@ const columns: ProColumns<DataType>[] = [
       <Button
         key="bijia"
         onClick={() => {
-          window.open('http://129.28.70.91/')
+          window.open(
+            `https://s.taobao.com/search?commend=all&ie=utf8&page=1&q=${record.name}AC&search_type=item&tab=all`
+          )
         }}
       >
         比价
@@ -192,6 +194,7 @@ export const Books = observer(() => {
       if (r) {
         data = await viewmodel.booksModel.fetchBooksList()
       }
+      console.log(data)
       data = data.map(
         (
           item: Dictionary<unknown> | NumericDictionary<unknown> | undefined

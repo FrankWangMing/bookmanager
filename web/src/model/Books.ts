@@ -30,7 +30,7 @@ export class Books {
 
   async getBooksBySearch(params: any) {
     const data = await getBooksBySearch(params)
-    return await get(data, 'data.getBooksBySearch', {})
+    return get(data, 'data.getBooksBySearch', {})
   }
 
   async upload(data: any) {

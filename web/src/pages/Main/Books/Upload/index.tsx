@@ -192,7 +192,9 @@ export default observer(
                 // duration: 600
               })
               setIsModalOpen(false)
-              handleOk()
+              setTimeout(() => {
+                handleOk()
+              }, 200)
             }
           }, 3000)
         })

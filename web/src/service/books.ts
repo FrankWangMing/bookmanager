@@ -23,7 +23,8 @@ export const bookList: any = () => {
           updatedAt
         }
       }
-    `
+    `,
+    fetchPolicy: 'network-only'
   })
 }
 
@@ -60,7 +61,8 @@ export const fetchDashBoardBookList: any = () => {
           }
         }
       }
-    `
+    `,
+    fetchPolicy: 'network-only'
   })
 }
 
@@ -92,6 +94,7 @@ export const getBooksBySearch: any = (data: any) => {
         }
       }
     `,
+    fetchPolicy: 'network-only',
     variables: {
       data
     }
@@ -173,7 +176,6 @@ export const uploadBooks: any = (data: any) => {
 }
 
 export const uploadManyBooks: any = (data: any) => {
-  console.log(data)
   return client.mutate({
     mutation: gql`
       mutation CreateManyBook($data: [CreateBookInput!]!) {
