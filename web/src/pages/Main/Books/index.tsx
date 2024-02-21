@@ -67,11 +67,6 @@ export const waitTime = async (time: number = 100) => {
 
 const columns: ProColumns<DataType>[] = [
   {
-    dataIndex: 'index',
-    valueType: 'indexBorder',
-    width: 48
-  },
-  {
     key: 'bookNumber',
     title: '书号',
     dataIndex: 'bookNumber',
