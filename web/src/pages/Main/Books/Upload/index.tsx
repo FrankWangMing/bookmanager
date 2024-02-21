@@ -231,7 +231,7 @@ export default observer(
                   onClick={() => {
                     clearBooks()
                   }}
-                  disabled={booksdata.size == 0 || checkBooks(booksdata)}
+                  disabled={booksdata.size == 0}
                   danger
                 >
                   一键清空

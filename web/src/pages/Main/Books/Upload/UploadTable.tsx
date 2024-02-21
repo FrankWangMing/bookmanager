@@ -56,6 +56,7 @@ export default observer(({ data }: { data: DataType[] }) => {
           return (
             <div>
               {valuesIn(i).length > 0 ? (
+                // eslint-disable-next-line react/jsx-key
                 valuesIn(i).map((_i) => <Tag color="red">{_i.name}</Tag>)
               ) : (
                 <CheckCircleOutlined

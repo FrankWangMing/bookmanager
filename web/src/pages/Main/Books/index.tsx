@@ -67,6 +67,11 @@ export const waitTime = async (time: number = 100) => {
 
 const columns: ProColumns<DataType>[] = [
   {
+    dataIndex: 'index',
+    valueType: 'indexBorder',
+    width: 48
+  },
+  {
     key: 'bookNumber',
     title: '书号',
     dataIndex: 'bookNumber',
@@ -170,10 +175,10 @@ const columns: ProColumns<DataType>[] = [
     key: 'option',
     render: (text, record, _, action) => [
       <Button
-        key="bijia"
+        key={uniqueId()}
         onClick={() => {
           window.open(
-            `https://s.taobao.com/search?commend=all&ie=utf8&page=1&q=${record.name}AC&search_type=item&tab=all`
+            `https://s.taobao.com/search?commend=all&ie=utf8&page=1&q=${record.name}&search_type=item&tab=all`
           )
         }}
       >
@@ -202,6 +207,13 @@ export const Books = observer(() => {
           return fromPairs(
             entries(item)
               .map((i) => {
+                console.log(i[0])
+                if (i[0] == 'printTime') {
+                  return [
+                    getChineseKey(i[0]),
+                    new Date(i[1] as any).toISOString().slice(0, 10)
+                  ]
+                }
                 return [getChineseKey(i[0]), i[1]]
               })
               .filter((i) => i[0])
@@ -274,14 +286,16 @@ export const Books = observer(() => {
         columns={columns}
         actionRef={actionRef}
         cardBordered
+        params={{}}
         request={async (params) => {
-          await waitTime(500)
+          await waitTime(200)
           return viewmodel.booksModel
             .getBooksBySearch({
               ...params,
               bookNumbers: SearchBookNumber
             })
             .then((r) => {
+              console.log(r.data)
               const data = r.data
               setPres(data)
               setSearchBookNumber([])
@@ -306,7 +320,7 @@ export const Books = observer(() => {
             console.log('value: ', value)
           }
         }}
-        rowKey="bookNumber"
+        rowKey={uniqueId()}
         search={{
           labelWidth: 'auto',
           optionRender: (searchConfig, formProps, dom) => [
@@ -329,20 +343,6 @@ export const Books = observer(() => {
             >
               <Button> 批量查询</Button>
             </AntUpload>
-            //   <Button
-            //   key="out"
-            //   onClick={() => {
-            //     const values = searchConfig?.form?.getFieldsValue()
-            //     searchConfig?.form?.setFieldsValue({
-            //       bookNumber: '170229'
-            //     })
-            //     searchConfig.form?.submit()
-            //     console.log(searchConfig.form?.submit())
-            //   }}
-            // >
-
-            // </Button>
-            // </Upload>
           ]
         }}
         options={{
@@ -364,8 +364,9 @@ export const Books = observer(() => {
         // }}
         pagination={{
           pageSize: 10,
-          onChange: (page) => {
+          onChange: (page, size) => {
             console.log(page)
+            console.log(size)
           }
         }}
         dateFormatter="string"

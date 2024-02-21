@@ -20,6 +20,7 @@ import {
   SearchBookResult
 } from './dto/createBook.input'
 import { BookIdArgs } from './dto/book-id.args'
+import { includes, reduce } from 'lodash'
 
 const pubSub = new PubSub()
 
@@ -122,9 +123,26 @@ export class BooksResolver {
     @Args({ name: 'data', type: () => [CreateBookInput] })
     data: [CreateBookInput]
   ) {
-    Promise.all(
+    await this.prisma.book.deleteMany({
+      where: {
+        supplierCode: {
+          in: reduce(
+            data,
+            (pre, item) => {
+              if (!includes(pre, item.supplierCode)) {
+                pre.push(item.supplierCode)
+              }
+              return pre
+            },
+            []
+          )
+        }
+      }
+    })
+    await Promise.all(
       data.map(async (i) => {
         console.log(i)
+
         return this.prisma.book.upsert({
           where: {
             bookNumber_supplierCode: {
@@ -182,11 +200,12 @@ export class BooksResolver {
     })
   }
 
-  @UseGuards(GqlAuthGuard)
+  // @UseGuards(GqlAuthGuard)
   @Query(() => SearchBookResult)
   async getBooksBySearch(@Args('data') data: SearchBookInput) {
     let result = []
     let count = 0
+    console.log(data)
     if (data.bookNumbers.length == 0) {
       result = (
         await this.prisma.book.findMany({
@@ -199,13 +218,16 @@ export class BooksResolver {
             },
             supplierCode: {
               contains: data.supplierCode
+            },
+            publish: {
+              contains: data.publish
             }
           },
           take: data.pageSize,
           skip: (data.current - 1) * data.pageSize
         })
       ).sort((a, b) => {
-        return b.createdAt.getTime() - a.createdAt.getTime()
+        return b.updatedAt.getTime() - a.updatedAt.getTime()
       })
       count = await this.prisma.book.count({
         where: {
@@ -214,6 +236,9 @@ export class BooksResolver {
           },
           bookNumber: {
             contains: data.bookNumber
+          },
+          publish: {
+            contains: data.publish
           },
           supplierCode: {
             contains: data.supplierCode
@@ -230,6 +255,9 @@ export class BooksResolver {
             bookNumber: {
               in: data.bookNumbers
             },
+            publish: {
+              contains: data.publish
+            },
             supplierCode: {
               contains: data.supplierCode
             }
@@ -238,7 +266,7 @@ export class BooksResolver {
           skip: (data.current - 1) * data.pageSize
         })
       ).sort((a, b) => {
-        return b.createdAt.getTime() - a.createdAt.getTime()
+        return b.updatedAt.getTime() - a.updatedAt.getTime()
       })
       count = await this.prisma.book.count({
         where: {
@@ -247,6 +275,9 @@ export class BooksResolver {
           },
           bookNumber: {
             in: data.bookNumbers
+          },
+          publish: {
+            contains: data.publish
           },
           supplierCode: {
             contains: data.supplierCode
